@@ -1,94 +1,123 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Store, GraduationCap, Video, Sparkles } from "lucide-react";
+import {
+  Store,
+  GraduationCap,
+  Video,
+  Sparkles,
+  Laptop,
+  Award,
+  Search,
+  Globe,
+  Palette,
+  type LucideIcon,
+} from "lucide-react";
 import { FadeUpWord } from "@/components/ui/fade-up-word";
 import ScrollAnimation from "./ScrollAnimation";
+import { AnimatedList } from "@/components/ui/animated-list";
 
-const experiences = [
+interface ExperienceItem {
+  icon: LucideIcon;
+  title: string;
+  subtitle: string;
+  period: string;
+}
+
+const experiences: ExperienceItem[] = [
+  {
+    icon: Laptop,
+    title: "10+ Years with Tech",
+    subtitle:
+      "Deep experience with hardware, software, and everything in between.",
+    period: "Since 2016",
+  },
   {
     icon: Store,
-    title: "Furniture Shop",
-    subtitle: "Full Stack Project",
+    title: "Full Stack Furniture Shop",
+    subtitle:
+      "Built a complete e-commerce store — React, Node, Prisma, Redis, BullMQ.",
     period: "Completed",
-    description:
-      "Built a complete furniture store from scratch — React frontend, Node backend, payments, caching, the works.",
-    tags: ["React", "Express", "Prisma", "Redis", "BullMQ"],
-    highlight: true,
-    gradient: "from-violet-500/10 to-fuchsia-500/10",
-    iconBg: "bg-violet-100 text-violet-600",
-    accentBorder: "border-l-violet-500",
   },
   {
     icon: Sparkles,
-    title: "30+ Real Projects",
-    subtitle: "Ongoing Portfolio",
+    title: "30+ Real Projects Shipped",
+    subtitle:
+      "From landing pages to complex full-stack apps. Building is what I do.",
     period: "Ongoing",
-    description:
-      "Shipped over 30 projects — from landing pages to complex full-stack apps. Building is what I do.",
-    tags: ["Next.js", "React", "Node.js", "TypeScript"],
-    highlight: false,
-    gradient: "from-blue-500/10 to-cyan-500/10",
-    iconBg: "bg-blue-100 text-blue-600",
-    accentBorder: "border-l-blue-500",
+  },
+  {
+    icon: Award,
+    title: "ITPEC IP Certificate",
+    subtitle:
+      "Certified Information Technology Passport — recognized across Asia-Pacific.",
+    period: "Certified",
+  },
+  {
+    icon: Globe,
+    title: "Custom Website Creator",
+    subtitle:
+      "I design and build full websites solo — from concept to deployment.",
+    period: "Active",
+  },
+  {
+    icon: Search,
+    title: "Research & Self-Learning",
+    subtitle:
+      "Always exploring new tech, frameworks, and best practices on my own.",
+    period: "Always",
+  },
+  {
+    icon: Palette,
+    title: "Graphic Design Training",
+    subtitle:
+      "Attended graphic design class — bringing visual thinking to my code.",
+    period: "Completed",
   },
   {
     icon: GraduationCap,
-    title: "Learning UI/UX",
-    subtitle: "Design Studies",
-    period: "Studies",
-    description:
-      "Studying design because functional isn't enough. It needs to look and feel right.",
-    tags: ["Figma", "Design Thinking", "Prototyping"],
-    highlight: false,
-    gradient: "from-emerald-500/10 to-teal-500/10",
-    iconBg: "bg-emerald-100 text-emerald-600",
-    accentBorder: "border-l-emerald-500",
+    title: "UI/UX Studies",
+    subtitle:
+      "Studying design because functional isn't enough. It needs to feel right.",
+    period: "Learning",
   },
   {
     icon: Video,
-    title: "AI & Content",
-    subtitle: "Education & Sharing",
+    title: "AI & Content Creation",
+    subtitle:
+      "Creating content about AI tools — helping people use this new technology.",
     period: "Active",
-    description:
-      "Creating content about AI tools — helping people understand and use this new technology.",
-    tags: ["AI", "Content Creation", "Education"],
-    highlight: false,
-    gradient: "from-amber-500/10 to-orange-500/10",
-    iconBg: "bg-amber-100 text-amber-600",
-    accentBorder: "border-l-amber-500",
   },
 ];
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.15,
-    },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 40, scale: 0.95 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      type: "spring" as const,
-      stiffness: 100,
-      damping: 15,
-    },
-  },
-};
+function ExperienceCard({ item }: { item: ExperienceItem }) {
+  return (
+    <div className="flex items-center gap-4 w-full max-w-lg mx-auto rounded-2xl border border-gray-200 bg-white p-4 shadow-sm hover:shadow-md transition-shadow duration-300">
+      <div className="w-11 h-11 rounded-xl bg-black flex items-center justify-center shrink-0">
+        <item.icon size={20} strokeWidth={1.5} className="text-white" />
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center justify-between gap-2">
+          <h3 className="text-sm font-semibold text-black truncate">
+            {item.title}
+          </h3>
+          <span className="text-[10px] tracking-wider uppercase text-gray-400 shrink-0">
+            {item.period}
+          </span>
+        </div>
+        <p className="text-xs text-gray-500 mt-0.5 leading-relaxed truncate">
+          {item.subtitle}
+        </p>
+      </div>
+    </div>
+  );
+}
 
 export default function ExperienceSection() {
   return (
     <section id="experience" className="py-32 px-6">
       <div className="max-w-5xl mx-auto">
         <ScrollAnimation variant="flip">
-          <div className="text-center mb-20">
+          <div className="text-center mb-16">
             <p className="text-xs tracking-[0.3em] uppercase text-gray-400 mb-4">
               Experience
             </p>
@@ -99,82 +128,24 @@ export default function ExperienceSection() {
               What I&apos;ve Been Up To
             </FadeUpWord>
             <p className="mt-4 text-gray-500 max-w-md mx-auto">
-              From side projects to full-stack builds — here&apos;s my journey
+              A decade of building, learning, and creating
             </p>
           </div>
         </ScrollAnimation>
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6"
-        >
-          {experiences.map((exp) => (
-            <motion.div
-              key={exp.title}
-              variants={cardVariants}
-              whileHover={{
-                y: -6,
-                transition: { type: "spring", stiffness: 300, damping: 20 },
-              }}
-              className={`group relative overflow-hidden rounded-2xl border border-gray-100 bg-linear-to-br ${exp.gradient} p-px`}
-            >
-              <div className="relative h-full rounded-2xl bg-white p-7">
-                {/* Accent left border */}
-                <div
-                  className={`absolute left-0 top-6 bottom-6 w-0.75 rounded-full border-l-4 ${exp.accentBorder} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
-                />
-
-                {/* Header */}
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div
-                      className={`w-11 h-11 rounded-xl ${exp.iconBg} flex items-center justify-center transition-transform duration-300 group-hover:scale-110`}
-                    >
-                      <exp.icon size={20} strokeWidth={1.8} />
-                    </div>
-                    <div>
-                      <h3 className="text-base font-bold text-black leading-tight">
-                        {exp.title}
-                      </h3>
-                      <p className="text-xs text-gray-400 mt-0.5">
-                        {exp.subtitle}
-                      </p>
-                    </div>
-                  </div>
-                  <span
-                    className={`text-[10px] tracking-wider uppercase px-2.5 py-1 rounded-full ${
-                      exp.highlight
-                        ? "bg-black text-white"
-                        : "bg-gray-100 text-gray-500"
-                    }`}
-                  >
-                    {exp.period}
-                  </span>
-                </div>
-
-                {/* Description */}
-                <p className="text-sm text-gray-500 leading-relaxed mb-5">
-                  {exp.description}
-                </p>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-1.5">
-                  {exp.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-[11px] px-2.5 py-1 rounded-full bg-gray-50 text-gray-600 border border-gray-100 group-hover:border-gray-200 transition-colors"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+        <div className="relative h-[400px] w-full overflow-hidden">
+          <AnimatedList
+            stackGap={15}
+            columnGap={75}
+            scaleFactor={0.04}
+            scrollDownDuration={6}
+            formationDuration={0.8}
+          >
+            {experiences.map((item) => (
+              <ExperienceCard key={item.title} item={item} />
+            ))}
+          </AnimatedList>
+        </div>
       </div>
     </section>
   );
