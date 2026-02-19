@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "motion/react";
-import { cn } from "@/lib/utils";
 import { FadeUpWord } from "@/components/ui/fade-up-word";
 import ScrollAnimation from "./ScrollAnimation";
 import {
@@ -23,6 +22,7 @@ interface ActivityData {
   label: string;
   value: number;
   color: string;
+  gradientEnd: string;
   size: number;
   current: string;
   target: string;
@@ -31,31 +31,34 @@ interface ActivityData {
 
 const activities: ActivityData[] = [
   {
-    label: "DEVELOPMENT",
-    value: 90,
-    color: "#000000",
+    label: "PROJECTS",
+    value: 85,
+    color: "#FF2D55",
+    gradientEnd: "#FF6B8B",
     size: 200,
     current: "30+",
-    target: "Projects",
-    unit: "SHIPPED",
+    target: "Shipped",
+    unit: "APPS",
   },
   {
-    label: "EXPERIENCE",
-    value: 75,
-    color: "#555555",
+    label: "TECH YEARS",
+    value: 60,
+    color: "#A3F900",
+    gradientEnd: "#C5FF4D",
     size: 160,
-    current: "10+",
+    current: "10",
     target: "Years",
-    unit: "TECH",
+    unit: "WITH TECH",
   },
   {
     label: "DESIGN",
-    value: 55,
-    color: "#999999",
+    value: 45,
+    color: "#04C7DD",
+    gradientEnd: "#4DDFED",
     size: 120,
     current: "UI/UX",
-    target: "& Graphic",
-    unit: "DESIGN",
+    target: "& GFX",
+    unit: "SKILLS",
   },
 ];
 
@@ -72,6 +75,7 @@ const CircleProgress = ({
   const radius = (data.size - strokeWidth) / 2;
   const circumference = radius * 2 * Math.PI;
   const progress = ((100 - data.value) / 100) * circumference;
+  const gradientId = `gradient-${data.label.toLowerCase().replace(/\s/g, "-")}`;
 
   return (
     <motion.div
@@ -90,6 +94,18 @@ const CircleProgress = ({
           aria-label={`${data.label} - ${data.value}%`}
         >
           <title>{`${data.label} - ${data.value}%`}</title>
+          <defs>
+            <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop
+                offset="0%"
+                style={{ stopColor: data.color, stopOpacity: 1 }}
+              />
+              <stop
+                offset="100%"
+                style={{ stopColor: data.gradientEnd, stopOpacity: 1 }}
+              />
+            </linearGradient>
+          </defs>
           <circle
             cx={data.size / 2}
             cy={data.size / 2}
@@ -97,14 +113,14 @@ const CircleProgress = ({
             fill="none"
             stroke="currentColor"
             strokeWidth={strokeWidth}
-            className="text-gray-200"
+            className="text-zinc-200/50"
           />
           <motion.circle
             cx={data.size / 2}
             cy={data.size / 2}
             r={radius}
             fill="none"
-            stroke={data.color}
+            stroke={`url(#${gradientId})`}
             strokeWidth={strokeWidth}
             strokeDasharray={circumference}
             initial={{ strokeDashoffset: circumference }}
@@ -116,6 +132,9 @@ const CircleProgress = ({
               ease: "easeInOut",
             }}
             strokeLinecap="round"
+            style={{
+              filter: "drop-shadow(0 0 6px rgba(0,0,0,0.15))",
+            }}
           />
         </svg>
       </div>
@@ -135,11 +154,12 @@ const DetailedInfo = () => (
   >
     {activities.map((a) => (
       <div key={a.label} className="flex flex-col">
-        <span className="text-xs font-medium text-gray-400 tracking-wider">
+        <span className="text-xs font-medium text-zinc-500 tracking-wider">
           {a.label}
         </span>
-        <span className="text-2xl font-semibold text-black">
-          {a.current} <span className="text-sm text-gray-400">{a.target}</span>
+        <span className="text-2xl font-semibold" style={{ color: a.color }}>
+          {a.current}
+          <span className="text-sm ml-1 text-zinc-500">{a.target}</span>
         </span>
       </div>
     ))}
@@ -157,13 +177,13 @@ interface ExpItem {
 const expItems: ExpItem[] = [
   {
     icon: Laptop,
-    title: "10+ Years with Tech",
-    desc: "Hardware, software, full-stack",
+    title: "10 Years with Tech",
+    desc: "Using laptops & computers since age 10",
   },
   {
     icon: Store,
     title: "Furniture Shop",
-    desc: "React, Node, Prisma, Redis, BullMQ",
+    desc: "Full-stack: React, Node, Prisma, Redis",
   },
   {
     icon: Sparkles,
@@ -184,12 +204,12 @@ const expItems: ExpItem[] = [
   {
     icon: Palette,
     title: "Graphic Design",
-    desc: "Visual thinking meets code",
+    desc: "Attended graphic design class",
   },
   {
     icon: GraduationCap,
     title: "UI/UX Studies",
-    desc: "Making things feel right",
+    desc: "Design perspective & prototyping",
   },
   {
     icon: Video,
@@ -216,7 +236,7 @@ export default function ExperienceSection() {
               What I&apos;ve Been Up To
             </FadeUpWord>
             <p className="mt-4 text-gray-500 max-w-md mx-auto">
-              A decade of building, learning, and creating
+              20 years old, building since day one
             </p>
           </div>
         </ScrollAnimation>
