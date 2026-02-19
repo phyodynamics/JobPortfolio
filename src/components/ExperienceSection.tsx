@@ -41,14 +41,14 @@ const activities: ActivityData[] = [
     unit: "APPS",
   },
   {
-    label: "TECH YEARS",
+    label: "JOURNEY",
     value: 60,
     color: "#A3F900",
     gradientEnd: "#C5FF4D",
     size: 160,
-    current: "10",
-    target: "Years",
-    unit: "WITH TECH",
+    current: "Since 10",
+    target: "y/o",
+    unit: "AGE",
   },
   {
     label: "DESIGN",
