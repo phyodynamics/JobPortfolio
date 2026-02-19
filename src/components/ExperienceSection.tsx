@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Store,
   GraduationCap,
@@ -15,7 +16,6 @@ import {
 } from "lucide-react";
 import { FadeUpWord } from "@/components/ui/fade-up-word";
 import ScrollAnimation from "./ScrollAnimation";
-import { AnimatedList } from "@/components/ui/animated-list";
 
 interface ExperienceItem {
   icon: LucideIcon;
@@ -111,8 +111,12 @@ function ExperienceCard({ item }: { item: ExperienceItem }) {
   );
 }
 
+const STACK_GAP = 8;
+const SCALE_STEP = 0.03;
+const VISIBLE_CARDS = 4;
+
 export default function ExperienceSection() {
-  const [isHovered, setIsHovered] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <section id="experience" className="py-32 px-6">
@@ -135,50 +139,86 @@ export default function ExperienceSection() {
         </ScrollAnimation>
 
         <div
-          className="relative h-[400px] w-full overflow-hidden"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
+          className="relative flex justify-center"
+          onMouseEnter={() => setIsExpanded(true)}
+          onMouseLeave={() => setIsExpanded(false)}
         >
-          {/* Animated list — visible when NOT hovered */}
-          <div
-            className={`absolute inset-0 transition-opacity duration-300 ${
-              isHovered ? "opacity-0 pointer-events-none" : "opacity-100"
-            }`}
-          >
-            <AnimatedList
-              stackGap={15}
-              columnGap={75}
-              scaleFactor={0.04}
-              scrollDownDuration={6}
-              formationDuration={0.8}
+          {isExpanded ? (
+            /* Expanded scrollable list */
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="w-full max-w-lg max-h-[450px] overflow-y-auto scrollbar-hide rounded-2xl"
+              style={{
+                maskImage:
+                  "linear-gradient(to bottom, transparent, black 24px, black calc(100% - 24px), transparent)",
+                WebkitMaskImage:
+                  "linear-gradient(to bottom, transparent, black 24px, black calc(100% - 24px), transparent)",
+              }}
             >
-              {experiences.map((item) => (
-                <ExperienceCard key={item.title} item={item} />
-              ))}
-            </AnimatedList>
-          </div>
+              <div className="flex flex-col gap-3 py-6">
+                {experiences.map((item, i) => (
+                  <motion.div
+                    key={item.title}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      delay: i * 0.04,
+                      type: "spring" as const,
+                      stiffness: 300,
+                      damping: 25,
+                    }}
+                  >
+                    <ExperienceCard item={item} />
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          ) : (
+            /* Stacked cards */
+            <div
+              className="relative w-full max-w-lg"
+              style={{
+                height: `${80 + (VISIBLE_CARDS - 1) * STACK_GAP + 20}px`,
+              }}
+            >
+              {experiences.map((item, i) => {
+                const reverseIndex = experiences.length - 1 - i;
+                const isVisible = reverseIndex < VISIBLE_CARDS;
+                const stackOffset = reverseIndex * STACK_GAP;
+                const scale = 1 - reverseIndex * SCALE_STEP;
 
-          {/* Scrollable list — visible when hovered */}
-          <div
-            className={`absolute inset-0 transition-opacity duration-300 overflow-y-auto scrollbar-hide ${
-              isHovered ? "opacity-100" : "opacity-0 pointer-events-none"
-            }`}
-            style={{
-              maskImage:
-                "linear-gradient(to bottom, transparent, black 40px, black calc(100% - 40px), transparent)",
-              WebkitMaskImage:
-                "linear-gradient(to bottom, transparent, black 40px, black calc(100% - 40px), transparent)",
-            }}
-          >
-            <div className="flex flex-col items-center gap-3 py-10">
-              {experiences.map((item) => (
-                <ExperienceCard key={item.title} item={item} />
-              ))}
+                return (
+                  <motion.div
+                    key={item.title}
+                    initial={false}
+                    animate={{
+                      y: stackOffset,
+                      scale: Math.max(scale, 0.85),
+                      opacity: isVisible ? 1 - reverseIndex * 0.15 : 0,
+                      zIndex: experiences.length - reverseIndex,
+                    }}
+                    transition={{
+                      type: "spring" as const,
+                      stiffness: 200,
+                      damping: 20,
+                    }}
+                    className="absolute inset-x-0 top-0"
+                    style={{
+                      transformOrigin: "top center",
+                    }}
+                  >
+                    <ExperienceCard item={item} />
+                  </motion.div>
+                );
+              })}
             </div>
-          </div>
+          )}
         </div>
 
-        <p className="text-center text-xs text-gray-400 mt-4">
+        <p className="text-center text-xs text-gray-400 mt-6">
           Hover to browse all experiences
         </p>
       </div>
