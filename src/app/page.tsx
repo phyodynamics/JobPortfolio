@@ -7,21 +7,24 @@ import ProjectsSection from "@/components/ProjectsSection";
 import ContactSection from "@/components/ContactSection";
 import CustomCursor from "@/components/CustomCursor";
 import FloatingResume from "@/components/FloatingResume";
+import SmoothScroll from "@/components/SmoothScroll";
 
 export default function Home() {
   return (
     <>
       <CustomCursor />
-      <main className="bg-white text-black relative">
-        <Navbar />
-        <FloatingResume />
-        <HeroSection />
-        <AboutSection />
-        <SkillsSection />
-        <ExperienceSection />
-        <ProjectsSection />
-        <ContactSection />
-      </main>
+      <SmoothScroll>
+        <main className="bg-white text-black relative">
+          <Navbar />
+          <FloatingResume />
+          <HeroSection />
+          <AboutSection />
+          <SkillsSection />
+          <ExperienceSection />
+          <ProjectsSection />
+          <ContactSection />
+        </main>
+      </SmoothScroll>
     </>
   );
 }
