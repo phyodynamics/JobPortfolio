@@ -1,5 +1,9 @@
 "use client";
 
+import { motion } from "motion/react";
+import { cn } from "@/lib/utils";
+import { FadeUpWord } from "@/components/ui/fade-up-word";
+import ScrollAnimation from "./ScrollAnimation";
 import {
   Store,
   GraduationCap,
@@ -10,124 +14,191 @@ import {
   Search,
   Globe,
   Palette,
+  type LucideIcon,
 } from "lucide-react";
-import { FadeUpWord } from "@/components/ui/fade-up-word";
-import ScrollAnimation from "./ScrollAnimation";
-import {
-  CardStack,
-  type ExperienceCardData,
-} from "@/components/kokonutui/card-stack";
 
-const experiences: ExperienceCardData[] = [
+/* ── Activity rings data ── */
+
+interface ActivityData {
+  label: string;
+  value: number;
+  color: string;
+  size: number;
+  current: string;
+  target: string;
+  unit: string;
+}
+
+const activities: ActivityData[] = [
   {
-    id: "tech",
-    title: "10+ Years with Tech",
-    subtitle: "Hardware, software, and everything in between",
-    icon: Laptop,
-    specs: [
-      { label: "Scope", value: "Full-Stack" },
-      { label: "Since", value: "2016" },
-      { label: "Focus", value: "Web Dev" },
-      { label: "Tools", value: "Modern" },
-    ],
+    label: "DEVELOPMENT",
+    value: 90,
+    color: "#000000",
+    size: 200,
+    current: "30+",
+    target: "Projects",
+    unit: "SHIPPED",
   },
   {
-    id: "furniture",
-    title: "Furniture Shop",
-    subtitle: "Full Stack E-commerce Project",
-    icon: Store,
-    specs: [
-      { label: "Frontend", value: "React" },
-      { label: "Backend", value: "Node.js" },
-      { label: "Database", value: "Prisma" },
-      { label: "Queue", value: "BullMQ" },
-    ],
+    label: "EXPERIENCE",
+    value: 75,
+    color: "#555555",
+    size: 160,
+    current: "10+",
+    target: "Years",
+    unit: "TECH",
   },
   {
-    id: "projects",
-    title: "30+ Projects",
-    subtitle: "From landing pages to full-stack apps",
-    icon: Sparkles,
-    specs: [
-      { label: "Count", value: "30+" },
-      { label: "Types", value: "Diverse" },
-      { label: "Stack", value: "Modern" },
-      { label: "Status", value: "Ongoing" },
-    ],
-  },
-  {
-    id: "itpec",
-    title: "ITPEC IP Cert",
-    subtitle: "Information Technology Passport",
-    icon: Award,
-    specs: [
-      { label: "Exam", value: "ITPEC" },
-      { label: "Region", value: "Asia-Pacific" },
-      { label: "Level", value: "IP" },
-      { label: "Status", value: "Certified" },
-    ],
-  },
-  {
-    id: "websites",
-    title: "Custom Websites",
-    subtitle: "Solo design to deployment",
-    icon: Globe,
-    specs: [
-      { label: "Role", value: "Solo Dev" },
-      { label: "Design", value: "Custom" },
-      { label: "Deploy", value: "Full" },
-      { label: "Clients", value: "Multiple" },
-    ],
-  },
-  {
-    id: "research",
-    title: "Research & Learning",
-    subtitle: "Always exploring new technologies",
-    icon: Search,
-    specs: [
-      { label: "Scope", value: "Broad" },
-      { label: "Pace", value: "Daily" },
-      { label: "Focus", value: "New Tech" },
-      { label: "Method", value: "Self-led" },
-    ],
-  },
-  {
-    id: "design",
-    title: "Graphic Design",
-    subtitle: "Visual thinking meets code",
-    icon: Palette,
-    specs: [
-      { label: "Tool", value: "Figma" },
-      { label: "Training", value: "Class" },
-      { label: "Focus", value: "UI/UX" },
-      { label: "Approach", value: "Creative" },
-    ],
-  },
-  {
-    id: "uiux",
-    title: "UI/UX Studies",
-    subtitle: "Making things feel right",
-    icon: GraduationCap,
-    specs: [
-      { label: "Design", value: "Thinking" },
-      { label: "Proto", value: "Figma" },
-      { label: "Focus", value: "UX" },
-      { label: "Status", value: "Learning" },
-    ],
-  },
-  {
-    id: "ai",
-    title: "AI & Content",
-    subtitle: "Creating content about AI tools",
-    icon: Video,
-    specs: [
-      { label: "Topic", value: "AI" },
-      { label: "Type", value: "Education" },
-      { label: "Focus", value: "Tools" },
-      { label: "Status", value: "Active" },
-    ],
+    label: "DESIGN",
+    value: 55,
+    color: "#999999",
+    size: 120,
+    current: "UI/UX",
+    target: "& Graphic",
+    unit: "DESIGN",
   },
 ];
+
+/* ── Circle progress ring ── */
+
+const CircleProgress = ({
+  data,
+  index,
+}: {
+  data: ActivityData;
+  index: number;
+}) => {
+  const strokeWidth = 16;
+  const radius = (data.size - strokeWidth) / 2;
+  const circumference = radius * 2 * Math.PI;
+  const progress = ((100 - data.value) / 100) * circumference;
+
+  return (
+    <motion.div
+      className="absolute inset-0 flex items-center justify-center"
+      initial={{ opacity: 0, scale: 0.8 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8, delay: index * 0.2, ease: "easeOut" }}
+    >
+      <div className="relative">
+        <svg
+          width={data.size}
+          height={data.size}
+          viewBox={`0 0 ${data.size} ${data.size}`}
+          className="transform -rotate-90"
+          aria-label={`${data.label} - ${data.value}%`}
+        >
+          <title>{`${data.label} - ${data.value}%`}</title>
+          <circle
+            cx={data.size / 2}
+            cy={data.size / 2}
+            r={radius}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={strokeWidth}
+            className="text-gray-200"
+          />
+          <motion.circle
+            cx={data.size / 2}
+            cy={data.size / 2}
+            r={radius}
+            fill="none"
+            stroke={data.color}
+            strokeWidth={strokeWidth}
+            strokeDasharray={circumference}
+            initial={{ strokeDashoffset: circumference }}
+            whileInView={{ strokeDashoffset: progress }}
+            viewport={{ once: true }}
+            transition={{
+              duration: 1.8,
+              delay: index * 0.2,
+              ease: "easeInOut",
+            }}
+            strokeLinecap="round"
+          />
+        </svg>
+      </div>
+    </motion.div>
+  );
+};
+
+/* ── Detailed stats beside rings ── */
+
+const DetailedInfo = () => (
+  <motion.div
+    className="flex flex-col gap-5 ml-8"
+    initial={{ opacity: 0, x: 20 }}
+    whileInView={{ opacity: 1, x: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.5, delay: 0.3 }}
+  >
+    {activities.map((a) => (
+      <div key={a.label} className="flex flex-col">
+        <span className="text-xs font-medium text-gray-400 tracking-wider">
+          {a.label}
+        </span>
+        <span className="text-2xl font-semibold text-black">
+          {a.current} <span className="text-sm text-gray-400">{a.target}</span>
+        </span>
+      </div>
+    ))}
+  </motion.div>
+);
+
+/* ── Experience list items ── */
+
+interface ExpItem {
+  icon: LucideIcon;
+  title: string;
+  desc: string;
+}
+
+const expItems: ExpItem[] = [
+  {
+    icon: Laptop,
+    title: "10+ Years with Tech",
+    desc: "Hardware, software, full-stack",
+  },
+  {
+    icon: Store,
+    title: "Furniture Shop",
+    desc: "React, Node, Prisma, Redis, BullMQ",
+  },
+  {
+    icon: Sparkles,
+    title: "30+ Projects Shipped",
+    desc: "Landing pages to full-stack apps",
+  },
+  {
+    icon: Award,
+    title: "ITPEC IP Certificate",
+    desc: "Asia-Pacific IT certification",
+  },
+  { icon: Globe, title: "Custom Websites", desc: "Solo design to deployment" },
+  {
+    icon: Search,
+    title: "Research & Learning",
+    desc: "Always exploring new tech",
+  },
+  {
+    icon: Palette,
+    title: "Graphic Design",
+    desc: "Visual thinking meets code",
+  },
+  {
+    icon: GraduationCap,
+    title: "UI/UX Studies",
+    desc: "Making things feel right",
+  },
+  {
+    icon: Video,
+    title: "AI & Content",
+    desc: "Creating content about AI tools",
+  },
+];
+
+/* ── Main section ── */
 
 export default function ExperienceSection() {
   return (
@@ -145,12 +216,60 @@ export default function ExperienceSection() {
               What I&apos;ve Been Up To
             </FadeUpWord>
             <p className="mt-4 text-gray-500 max-w-md mx-auto">
-              Click to explore • A decade of building
+              A decade of building, learning, and creating
             </p>
           </div>
         </ScrollAnimation>
 
-        <CardStack items={experiences} />
+        <div className="flex flex-col md:flex-row items-center md:items-start gap-12 md:gap-16">
+          {/* Activity Rings */}
+          <div className="shrink-0">
+            <div className="flex items-center">
+              <div className="relative w-[180px] h-[180px]">
+                {activities.map((activity, index) => (
+                  <CircleProgress
+                    key={activity.label}
+                    data={activity}
+                    index={index}
+                  />
+                ))}
+              </div>
+              <DetailedInfo />
+            </div>
+          </div>
+
+          {/* Experience list */}
+          <div className="flex-1 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {expItems.map((item, i) => (
+                <motion.div
+                  key={item.title}
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.06, duration: 0.4 }}
+                  className="flex items-center gap-3 rounded-xl border border-gray-100 bg-white p-3 hover:border-gray-200 hover:shadow-sm transition-all duration-200"
+                >
+                  <div className="w-9 h-9 rounded-lg bg-black flex items-center justify-center shrink-0">
+                    <item.icon
+                      size={16}
+                      strokeWidth={1.5}
+                      className="text-white"
+                    />
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className="text-sm font-semibold text-black truncate">
+                      {item.title}
+                    </h3>
+                    <p className="text-[11px] text-gray-400 truncate">
+                      {item.desc}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
