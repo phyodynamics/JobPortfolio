@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useState } from "react";
 import {
   Store,
   GraduationCap,
@@ -14,7 +15,6 @@ import {
 } from "lucide-react";
 import { FadeUpWord } from "@/components/ui/fade-up-word";
 import ScrollAnimation from "./ScrollAnimation";
-import { AnimatedList } from "@/components/ui/animated-list";
 
 interface ExperienceItem {
   icon: LucideIcon;
@@ -91,7 +91,7 @@ const experiences: ExperienceItem[] = [
 
 function ExperienceCard({ item }: { item: ExperienceItem }) {
   return (
-    <div className="flex items-center gap-4 w-full max-w-lg mx-auto rounded-2xl border border-gray-200 bg-white p-4 shadow-sm hover:shadow-md transition-shadow duration-300">
+    <div className="flex items-center gap-4 w-full rounded-2xl border border-gray-200 bg-white p-4 hover:border-gray-300 hover:shadow-md transition-all duration-300">
       <div className="w-11 h-11 rounded-xl bg-black flex items-center justify-center shrink-0">
         <item.icon size={20} strokeWidth={1.5} className="text-white" />
       </div>
@@ -113,6 +113,9 @@ function ExperienceCard({ item }: { item: ExperienceItem }) {
 }
 
 export default function ExperienceSection() {
+  const [isPaused, setIsPaused] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
   return (
     <section id="experience" className="py-32 px-6">
       <div className="max-w-5xl mx-auto">
@@ -133,18 +136,42 @@ export default function ExperienceSection() {
           </div>
         </ScrollAnimation>
 
-        <div className="relative h-[400px] w-full overflow-hidden">
-          <AnimatedList
-            stackGap={15}
-            columnGap={75}
-            scaleFactor={0.04}
-            scrollDownDuration={6}
-            formationDuration={0.8}
+        {/* Scrollable marquee container */}
+        <div
+          className="relative h-105 overflow-hidden max-w-lg mx-auto"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={() => setIsPaused(true)}
+          onTouchEnd={() => setIsPaused(false)}
+        >
+          {/* Fade overlays */}
+          <div className="absolute top-0 left-0 right-0 h-16 bg-linear-to-b from-white to-transparent z-10 pointer-events-none" />
+          <div className="absolute bottom-0 left-0 right-0 h-16 bg-linear-to-t from-white to-transparent z-10 pointer-events-none" />
+
+          <div
+            ref={scrollRef}
+            className="overflow-y-auto h-full scrollbar-hide"
+            style={{
+              maskImage:
+                "linear-gradient(to bottom, transparent, black 60px, black calc(100% - 60px), transparent)",
+              WebkitMaskImage:
+                "linear-gradient(to bottom, transparent, black 60px, black calc(100% - 60px), transparent)",
+            }}
           >
-            {experiences.map((item) => (
-              <ExperienceCard key={item.title} item={item} />
-            ))}
-          </AnimatedList>
+            <div
+              className={`flex flex-col gap-3 py-16 ${isPaused ? "[animation-play-state:paused]" : ""}`}
+              style={{
+                animation: isPaused
+                  ? "none"
+                  : "marquee-vertical 25s linear infinite",
+              }}
+            >
+              {/* Duplicate items for infinite scroll effect */}
+              {[...experiences, ...experiences].map((item, i) => (
+                <ExperienceCard key={`${item.title}-${i}`} item={item} />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
