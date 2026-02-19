@@ -55,7 +55,7 @@ const Card = ({
   const spreadX =
     index * (cardWidth - cardOverlap) - expandedCenterOffset + cardWidth / 2;
   const spreadY = 0;
-  const spreadRotate = index * 5 - (totalCards - 1) * 2.5;
+  const spreadRotate = index * 3 - (totalCards - 1) * 1.5;
   const spreadScale = 1;
 
   const Icon = item.icon;
@@ -66,19 +66,19 @@ const Card = ({
     <motion.div
       animate={{
         x: isExpanded ? spreadX : defaultX,
-        y: isExpanded ? spreadY : isHovered ? -30 : defaultY,
+        y: isExpanded ? spreadY : isHovered ? -15 : defaultY,
         rotate: isExpanded ? spreadRotate : isHovered ? 0 : defaultRotate,
-        scale: isExpanded ? spreadScale : isHovered ? 1.05 : defaultScale,
+        scale: isExpanded ? spreadScale : isHovered ? 1.02 : defaultScale,
         zIndex: stackedZ,
       }}
       className={cn(
         "absolute inset-0 w-full rounded-2xl p-6",
-        "bg-gradient-to-br from-white/60 via-neutral-50/40 to-neutral-100/30",
+        "bg-linear-to-br from-white/60 via-neutral-50/40 to-neutral-100/30",
         "border border-neutral-200/40",
         "backdrop-blur-xl backdrop-saturate-150",
-        "shadow-[0_8px_20px_rgb(0,0,0,0.08)]",
-        isHovered && "shadow-[0_16px_50px_rgb(0,0,0,0.15)]",
-        "transition-all duration-500 ease-out",
+        isHovered
+          ? "shadow-[0_12px_35px_rgb(0,0,0,0.12)]"
+          : "shadow-[0_8px_20px_rgb(0,0,0,0.08)]",
         "transform-gpu overflow-hidden",
       )}
       initial={{
@@ -99,11 +99,9 @@ const Card = ({
       }}
       transition={{
         type: "spring",
-        stiffness: 350,
-        damping: 30,
-        mass: 0.8,
-        restDelta: 0.001,
-        restSpeed: 0.001,
+        stiffness: 200,
+        damping: 28,
+        mass: 1,
       }}
     >
       {/* Inner Card */}
