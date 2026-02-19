@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import {
   Store,
   GraduationCap,
@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { FadeUpWord } from "@/components/ui/fade-up-word";
 import ScrollAnimation from "./ScrollAnimation";
+import { AnimatedList } from "@/components/ui/animated-list";
 
 interface ExperienceItem {
   icon: LucideIcon;
@@ -91,20 +92,18 @@ const experiences: ExperienceItem[] = [
 
 function ExperienceCard({ item }: { item: ExperienceItem }) {
   return (
-    <div className="flex items-center gap-4 w-full rounded-2xl border border-gray-200 bg-white p-4 hover:border-gray-300 hover:shadow-md transition-all duration-300">
+    <div className="flex w-full max-w-lg items-center gap-4 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
       <div className="w-11 h-11 rounded-xl bg-black flex items-center justify-center shrink-0">
         <item.icon size={20} strokeWidth={1.5} className="text-white" />
       </div>
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center justify-between gap-2">
-          <h3 className="text-sm font-semibold text-black truncate">
-            {item.title}
-          </h3>
+      <div className="flex w-full flex-col">
+        <div className="flex w-full items-start justify-between">
+          <h3 className="text-sm font-semibold text-black">{item.title}</h3>
           <span className="text-[10px] tracking-wider uppercase text-gray-400 shrink-0">
             {item.period}
           </span>
         </div>
-        <p className="text-xs text-gray-500 mt-0.5 leading-relaxed truncate">
+        <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">
           {item.subtitle}
         </p>
       </div>
@@ -113,8 +112,7 @@ function ExperienceCard({ item }: { item: ExperienceItem }) {
 }
 
 export default function ExperienceSection() {
-  const [isPaused, setIsPaused] = useState(false);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <section id="experience" className="py-32 px-6">
@@ -136,43 +134,53 @@ export default function ExperienceSection() {
           </div>
         </ScrollAnimation>
 
-        {/* Scrollable marquee container */}
         <div
-          className="relative h-105 overflow-hidden max-w-lg mx-auto"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          onTouchStart={() => setIsPaused(true)}
-          onTouchEnd={() => setIsPaused(false)}
+          className="relative h-[400px] w-full overflow-hidden"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         >
-          {/* Fade overlays */}
-          <div className="absolute top-0 left-0 right-0 h-16 bg-linear-to-b from-white to-transparent z-10 pointer-events-none" />
-          <div className="absolute bottom-0 left-0 right-0 h-16 bg-linear-to-t from-white to-transparent z-10 pointer-events-none" />
-
+          {/* Animated list — visible when NOT hovered */}
           <div
-            ref={scrollRef}
-            className="overflow-y-auto h-full scrollbar-hide"
+            className={`absolute inset-0 transition-opacity duration-300 ${
+              isHovered ? "opacity-0 pointer-events-none" : "opacity-100"
+            }`}
+          >
+            <AnimatedList
+              stackGap={15}
+              columnGap={75}
+              scaleFactor={0.04}
+              scrollDownDuration={6}
+              formationDuration={0.8}
+            >
+              {experiences.map((item) => (
+                <ExperienceCard key={item.title} item={item} />
+              ))}
+            </AnimatedList>
+          </div>
+
+          {/* Scrollable list — visible when hovered */}
+          <div
+            className={`absolute inset-0 transition-opacity duration-300 overflow-y-auto scrollbar-hide ${
+              isHovered ? "opacity-100" : "opacity-0 pointer-events-none"
+            }`}
             style={{
               maskImage:
-                "linear-gradient(to bottom, transparent, black 60px, black calc(100% - 60px), transparent)",
+                "linear-gradient(to bottom, transparent, black 40px, black calc(100% - 40px), transparent)",
               WebkitMaskImage:
-                "linear-gradient(to bottom, transparent, black 60px, black calc(100% - 60px), transparent)",
+                "linear-gradient(to bottom, transparent, black 40px, black calc(100% - 40px), transparent)",
             }}
           >
-            <div
-              className={`flex flex-col gap-3 py-16 ${isPaused ? "[animation-play-state:paused]" : ""}`}
-              style={{
-                animation: isPaused
-                  ? "none"
-                  : "marquee-vertical 25s linear infinite",
-              }}
-            >
-              {/* Duplicate items for infinite scroll effect */}
-              {[...experiences, ...experiences].map((item, i) => (
-                <ExperienceCard key={`${item.title}-${i}`} item={item} />
+            <div className="flex flex-col items-center gap-3 py-10">
+              {experiences.map((item) => (
+                <ExperienceCard key={item.title} item={item} />
               ))}
             </div>
           </div>
         </div>
+
+        <p className="text-center text-xs text-gray-400 mt-4">
+          Hover to browse all experiences
+        </p>
       </div>
     </section>
   );
