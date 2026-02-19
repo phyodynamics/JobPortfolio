@@ -3,14 +3,14 @@
 import clsx from "clsx";
 import { useEffect, useState, useCallback, useSyncExternalStore } from "react";
 
-const navItems = [
-  { path: "#hero", name: "home" },
-  { path: "#about", name: "about" },
-  { path: "#skills", name: "skills" },
-  { path: "#experience", name: "exp" },
-  { path: "#projects", name: "projects" },
-  { path: "#contact", name: "contact" },
-];
+const navItems = {
+  "#hero": { name: "home" },
+  "#about": { name: "about" },
+  "#skills": { name: "skills" },
+  "#experience": { name: "exp" },
+  "#projects": { name: "projects" },
+  "#contact": { name: "contact" },
+};
 
 function useScrollSpy(ids: string[], offset = 120) {
   const [activeId, setActiveId] = useState(ids[0]);
@@ -18,7 +18,6 @@ function useScrollSpy(ids: string[], offset = 120) {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        // Find the entry that is most visible
         const visible = entries
           .filter((e) => e.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
@@ -43,62 +42,39 @@ function useScrollSpy(ids: string[], offset = 120) {
   return activeId;
 }
 
-function useIsScrolled(threshold = 10) {
-  const subscribe = useCallback((cb: () => void) => {
-    window.addEventListener("scroll", cb, { passive: true });
-    return () => window.removeEventListener("scroll", cb);
-  }, []);
-  const getSnapshot = useCallback(
-    () => window.scrollY > threshold,
-    [threshold],
-  );
-  const getServerSnapshot = useCallback(() => false, []);
-  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
-}
-
 export default function Navbar() {
-  const sectionIds = navItems.map((item) => item.path);
+  const sectionIds = Object.keys(navItems);
   const activePath = useScrollSpy(sectionIds);
-  const isScrolled = useIsScrolled();
 
   const handleClick = (path: string) => {
     document.querySelector(path)?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const isActiveLink = (path: string) => activePath === path;
+
   return (
-    <nav
-      className={clsx(
-        "fixed top-4 left-1/2 -translate-x-1/2 z-9999 mx-auto w-[calc(100%-1rem)] sm:w-auto max-w-4xl px-1 sm:px-4 py-2 transition-all duration-500",
-      )}
-    >
+    <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-9999 mx-auto w-[calc(100%-1rem)] sm:w-auto max-w-4xl px-1 sm:px-4 py-2">
       <div className="flex items-center justify-center">
-        <div
-          className={clsx(
-            "flex items-center justify-between overflow-hidden rounded-2xl transition-all duration-500 shadow-lg",
-            isScrolled
-              ? "bg-black/90 backdrop-blur-xl"
-              : "bg-black/80 backdrop-blur-md",
-          )}
-        >
-          {navItems.map(({ path, name }, index, array) => {
-            const isActive = activePath === path;
+        <div className="glass flex items-center justify-between overflow-hidden rounded-xl">
+          {Object.entries(navItems).map(([path, { name }], index, array) => {
+            const isActive = isActiveLink(path);
             const isFirst = index === 0;
             const isLast = index === array.length - 1;
-            const prevActive =
-              index > 0 && activePath === array[index - 1].path;
-            const nextActive =
-              index < array.length - 1 && activePath === array[index + 1].path;
+            const prevPath = index > 0 ? array[index - 1][0] : null;
+            const nextPath =
+              index < array.length - 1 ? array[index + 1][0] : null;
 
             return (
               <button
                 className={clsx(
-                  "flex items-center justify-center p-1.5 px-2.5 sm:p-2 sm:px-4 text-xs sm:text-sm transition-all duration-300 capitalize",
+                  "flex items-center justify-center bg-black p-1 px-2.5 sm:p-1.5 sm:px-4 text-xs sm:text-sm text-white transition-all duration-300 capitalize",
                   isActive
-                    ? "mx-1 sm:mx-1.5 rounded-xl font-semibold bg-white text-black"
+                    ? "mx-1 sm:mx-2 rounded-xl font-semibold"
                     : clsx(
-                        "text-gray-300 hover:text-white",
-                        (prevActive || isFirst) && "rounded-l-xl",
-                        (nextActive || isLast) && "rounded-r-xl",
+                        (isActiveLink(prevPath || "") || isFirst) &&
+                          "rounded-l-xl",
+                        (isActiveLink(nextPath || "") || isLast) &&
+                          "rounded-r-xl",
                       ),
                 )}
                 key={path}
