@@ -1,11 +1,28 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useSyncExternalStore, useCallback } from "react";
+
+function useIsDesktop() {
+  const subscribe = useCallback((cb: () => void) => {
+    const mq = window.matchMedia("(pointer: fine)");
+    mq.addEventListener("change", cb);
+    return () => mq.removeEventListener("change", cb);
+  }, []);
+  const getSnapshot = useCallback(
+    () => window.matchMedia("(pointer: fine)").matches,
+    [],
+  );
+  const getServerSnapshot = useCallback(() => false, []);
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+}
 
 export default function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
+  const isDesktop = useIsDesktop();
 
   useEffect(() => {
+    if (!isDesktop) return;
+
     const cursor = cursorRef.current;
     if (!cursor) return;
 
@@ -42,7 +59,10 @@ export default function CustomCursor() {
       document.documentElement.style.cursor = "";
       cancelAnimationFrame(raf);
     };
-  }, []);
+  }, [isDesktop]);
+
+  // Don't render anything on touch devices
+  if (!isDesktop) return null;
 
   return (
     <div

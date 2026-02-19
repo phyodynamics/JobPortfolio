@@ -4,7 +4,24 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 import { FadeUpWord } from "@/components/ui/fade-up-word";
 import { CloudOrbit, OrbitingImage } from "@/components/ui/cloud-orbit";
-import { useRef } from "react";
+import { useRef, useSyncExternalStore, useCallback } from "react";
+
+function useIsMobile(breakpoint = 768) {
+  const subscribe = useCallback(
+    (cb: () => void) => {
+      const mq = window.matchMedia(`(max-width: ${breakpoint - 1}px)`);
+      mq.addEventListener("change", cb);
+      return () => mq.removeEventListener("change", cb);
+    },
+    [breakpoint],
+  );
+  const getSnapshot = useCallback(
+    () => window.matchMedia(`(max-width: ${breakpoint - 1}px)`).matches,
+    [breakpoint],
+  );
+  const getServerSnapshot = useCallback(() => false, []);
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+}
 
 const orbitingImagesData = [
   {
@@ -50,6 +67,9 @@ const orbitingImagesData = [
 ];
 
 export default function HeroSection() {
+  const isMobile = useIsMobile();
+  const orbitRadius = isMobile ? 110 : 160;
+  const orbitSize = isMobile ? 38 : 50;
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -100,7 +120,7 @@ export default function HeroSection() {
           perspective: "1200px",
           willChange: "transform",
         }}
-        className="relative z-10 w-[360px] h-[360px] mb-8"
+        className="relative z-10 w-65 h-65 md:w-90 md:h-90 mb-8"
       >
         <CloudOrbit
           duration={3}
@@ -112,8 +132,8 @@ export default function HeroSection() {
             <OrbitingImage
               key={index}
               speed={orbit.speed}
-              radius={orbit.radius}
-              size={orbit.size}
+              radius={orbitRadius}
+              size={orbitSize}
               startAt={orbit.startAt}
               images={orbit.images}
             />
