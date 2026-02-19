@@ -10,105 +10,124 @@ import {
   Search,
   Globe,
   Palette,
-  type LucideIcon,
 } from "lucide-react";
 import { FadeUpWord } from "@/components/ui/fade-up-word";
 import ScrollAnimation from "./ScrollAnimation";
-import { CardStack } from "@/components/kokonutui/card-stack";
+import {
+  CardStack,
+  type ExperienceCardData,
+} from "@/components/kokonutui/card-stack";
 
-interface ExperienceItem {
-  icon: LucideIcon;
-  title: string;
-  subtitle: string;
-  period: string;
-}
-
-const experiences: ExperienceItem[] = [
+const experiences: ExperienceCardData[] = [
   {
-    icon: Laptop,
+    id: "tech",
     title: "10+ Years with Tech",
-    subtitle:
-      "Deep experience with hardware, software, and everything in between.",
-    period: "Since 2016",
+    subtitle: "Hardware, software, and everything in between",
+    icon: Laptop,
+    specs: [
+      { label: "Scope", value: "Full-Stack" },
+      { label: "Since", value: "2016" },
+      { label: "Focus", value: "Web Dev" },
+      { label: "Tools", value: "Modern" },
+    ],
   },
   {
+    id: "furniture",
+    title: "Furniture Shop",
+    subtitle: "Full Stack E-commerce Project",
     icon: Store,
-    title: "Full Stack Furniture Shop",
-    subtitle:
-      "Built a complete e-commerce store — React, Node, Prisma, Redis, BullMQ.",
-    period: "Completed",
+    specs: [
+      { label: "Frontend", value: "React" },
+      { label: "Backend", value: "Node.js" },
+      { label: "Database", value: "Prisma" },
+      { label: "Queue", value: "BullMQ" },
+    ],
   },
   {
+    id: "projects",
+    title: "30+ Projects",
+    subtitle: "From landing pages to full-stack apps",
     icon: Sparkles,
-    title: "30+ Real Projects Shipped",
-    subtitle:
-      "From landing pages to complex full-stack apps. Building is what I do.",
-    period: "Ongoing",
+    specs: [
+      { label: "Count", value: "30+" },
+      { label: "Types", value: "Diverse" },
+      { label: "Stack", value: "Modern" },
+      { label: "Status", value: "Ongoing" },
+    ],
   },
   {
+    id: "itpec",
+    title: "ITPEC IP Cert",
+    subtitle: "Information Technology Passport",
     icon: Award,
-    title: "ITPEC IP Certificate",
-    subtitle:
-      "Certified Information Technology Passport — recognized across Asia-Pacific.",
-    period: "Certified",
+    specs: [
+      { label: "Exam", value: "ITPEC" },
+      { label: "Region", value: "Asia-Pacific" },
+      { label: "Level", value: "IP" },
+      { label: "Status", value: "Certified" },
+    ],
   },
   {
+    id: "websites",
+    title: "Custom Websites",
+    subtitle: "Solo design to deployment",
     icon: Globe,
-    title: "Custom Website Creator",
-    subtitle:
-      "I design and build full websites solo — from concept to deployment.",
-    period: "Active",
+    specs: [
+      { label: "Role", value: "Solo Dev" },
+      { label: "Design", value: "Custom" },
+      { label: "Deploy", value: "Full" },
+      { label: "Clients", value: "Multiple" },
+    ],
   },
   {
+    id: "research",
+    title: "Research & Learning",
+    subtitle: "Always exploring new technologies",
     icon: Search,
-    title: "Research & Self-Learning",
-    subtitle:
-      "Always exploring new tech, frameworks, and best practices on my own.",
-    period: "Always",
+    specs: [
+      { label: "Scope", value: "Broad" },
+      { label: "Pace", value: "Daily" },
+      { label: "Focus", value: "New Tech" },
+      { label: "Method", value: "Self-led" },
+    ],
   },
   {
+    id: "design",
+    title: "Graphic Design",
+    subtitle: "Visual thinking meets code",
     icon: Palette,
-    title: "Graphic Design Training",
-    subtitle:
-      "Attended graphic design class — bringing visual thinking to my code.",
-    period: "Completed",
+    specs: [
+      { label: "Tool", value: "Figma" },
+      { label: "Training", value: "Class" },
+      { label: "Focus", value: "UI/UX" },
+      { label: "Approach", value: "Creative" },
+    ],
   },
   {
-    icon: GraduationCap,
+    id: "uiux",
     title: "UI/UX Studies",
-    subtitle:
-      "Studying design because functional isn't enough. It needs to feel right.",
-    period: "Learning",
+    subtitle: "Making things feel right",
+    icon: GraduationCap,
+    specs: [
+      { label: "Design", value: "Thinking" },
+      { label: "Proto", value: "Figma" },
+      { label: "Focus", value: "UX" },
+      { label: "Status", value: "Learning" },
+    ],
   },
   {
+    id: "ai",
+    title: "AI & Content",
+    subtitle: "Creating content about AI tools",
     icon: Video,
-    title: "AI & Content Creation",
-    subtitle:
-      "Creating content about AI tools — helping people use this new technology.",
-    period: "Active",
+    specs: [
+      { label: "Topic", value: "AI" },
+      { label: "Type", value: "Education" },
+      { label: "Focus", value: "Tools" },
+      { label: "Status", value: "Active" },
+    ],
   },
 ];
-
-function ExperienceCard({ item }: { item: ExperienceItem }) {
-  return (
-    <div className="flex w-full items-center gap-4 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
-      <div className="w-11 h-11 rounded-xl bg-black flex items-center justify-center shrink-0">
-        <item.icon size={20} strokeWidth={1.5} className="text-white" />
-      </div>
-      <div className="flex w-full flex-col">
-        <div className="flex w-full items-start justify-between">
-          <h3 className="text-sm font-semibold text-black">{item.title}</h3>
-          <span className="text-[10px] tracking-wider uppercase text-gray-400 shrink-0">
-            {item.period}
-          </span>
-        </div>
-        <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">
-          {item.subtitle}
-        </p>
-      </div>
-    </div>
-  );
-}
 
 export default function ExperienceSection() {
   return (
@@ -126,22 +145,12 @@ export default function ExperienceSection() {
               What I&apos;ve Been Up To
             </FadeUpWord>
             <p className="mt-4 text-gray-500 max-w-md mx-auto">
-              A decade of building, learning, and creating
+              Click to explore • A decade of building
             </p>
           </div>
         </ScrollAnimation>
 
-        <div className="flex justify-center">
-          <CardStack className="max-w-lg">
-            {experiences.map((item) => (
-              <ExperienceCard key={item.title} item={item} />
-            ))}
-          </CardStack>
-        </div>
-
-        <p className="text-center text-xs text-gray-400 mt-6">
-          Hover to browse all experiences
-        </p>
+        <CardStack items={experiences} />
       </div>
     </section>
   );

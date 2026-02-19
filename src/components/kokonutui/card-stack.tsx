@@ -1,98 +1,165 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+/**
+ * @author: @dorianbaffier (kokonutui)
+ * @description: Card Stack - adapted for experience section
+ * @license: MIT
+ * @website: https://kokonutui.com
+ */
+
+import { motion } from "motion/react";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
+import type { LucideIcon } from "lucide-react";
+
+export interface ExperienceCardData {
+  id: string;
+  title: string;
+  subtitle: string;
+  icon: LucideIcon;
+  specs: { label: string; value: string }[];
+}
+
+interface CardProps {
+  item: ExperienceCardData;
+  index: number;
+  totalCards: number;
+  isExpanded: boolean;
+}
+
+const Card = ({ item, index, totalCards, isExpanded }: CardProps) => {
+  const centerOffset = (totalCards - 1) * 5;
+
+  const defaultX = index * 10 - centerOffset;
+  const defaultY = index * 2;
+  const defaultRotate = index * 1.5;
+  const defaultScale = 1;
+
+  const cardWidth = 320;
+  const cardOverlap = 240;
+  const totalExpandedWidth =
+    cardWidth + (totalCards - 1) * (cardWidth - cardOverlap);
+  const expandedCenterOffset = totalExpandedWidth / 2;
+
+  const spreadX =
+    index * (cardWidth - cardOverlap) - expandedCenterOffset + cardWidth / 2;
+  const spreadY = 0;
+  const spreadRotate = index * 5 - (totalCards - 1) * 2.5;
+  const spreadScale = 1;
+
+  const Icon = item.icon;
+
+  return (
+    <motion.div
+      animate={{
+        x: isExpanded ? spreadX : defaultX,
+        y: isExpanded ? spreadY : defaultY,
+        rotate: isExpanded ? spreadRotate : defaultRotate,
+        scale: isExpanded ? spreadScale : defaultScale,
+        zIndex: totalCards - index,
+      }}
+      className={cn(
+        "absolute inset-0 w-full rounded-2xl p-6",
+        "bg-gradient-to-br from-white/60 via-neutral-50/40 to-neutral-100/30",
+        "border border-neutral-200/40",
+        "backdrop-blur-xl backdrop-saturate-150",
+        "shadow-[0_8px_20px_rgb(0,0,0,0.08)]",
+        "hover:shadow-[0_12px_40px_rgb(0,0,0,0.12)]",
+        "transition-all duration-500 ease-out",
+        "transform-gpu overflow-hidden",
+      )}
+      initial={{
+        x: defaultX,
+        y: defaultY,
+        rotate: defaultRotate,
+        scale: defaultScale,
+      }}
+      style={{
+        maxWidth: "320px",
+        transformStyle: "preserve-3d",
+        perspective: "2000px",
+        left: "50%",
+        marginLeft: "-160px",
+        zIndex: totalCards - index,
+      }}
+      transition={{
+        type: "spring",
+        stiffness: 350,
+        damping: 30,
+        mass: 0.8,
+        restDelta: 0.001,
+        restSpeed: 0.001,
+      }}
+    >
+      {/* Inner Card */}
+      <div className="absolute inset-1 rounded-xl border border-neutral-200/30 bg-white/60 backdrop-blur-sm" />
+
+      <div className="relative z-10">
+        {/* Specs Grid */}
+        <dl className="mb-5 grid grid-cols-2 gap-2">
+          {item.specs.map((spec) => (
+            <div
+              className="flex flex-col items-start text-left text-[10px]"
+              key={spec.label}
+            >
+              <dd className="w-full font-medium text-gray-500">{spec.value}</dd>
+              <dt className="mb-0.5 w-full text-gray-900">{spec.label}</dt>
+            </div>
+          ))}
+        </dl>
+
+        {/* Icon + Title (replaces image) */}
+        <div className="flex items-center gap-4 pt-2 border-t border-neutral-200/30">
+          <div className="w-12 h-12 rounded-xl bg-black flex items-center justify-center shrink-0">
+            <Icon size={22} strokeWidth={1.5} className="text-white" />
+          </div>
+          <div className="space-y-0.5">
+            <h2 className="text-left font-bold text-lg text-black tracking-tight leading-tight">
+              {item.title}
+            </h2>
+            <span className="block text-left text-xs text-gray-400">
+              {item.subtitle}
+            </span>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
 interface CardStackProps {
-  children: React.ReactNode;
+  items: ExperienceCardData[];
   className?: string;
 }
 
-export function CardStack({ children, className }: CardStackProps) {
+export function CardStack({ items, className }: CardStackProps) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const childrenArray = React.Children.toArray(children);
+
+  const handleToggle = () => setIsExpanded(!isExpanded);
 
   return (
-    <div
-      className={cn("relative w-full", className)}
-      onMouseEnter={() => setIsExpanded(true)}
-      onMouseLeave={() => setIsExpanded(false)}
+    <button
+      aria-label="Toggle card stack"
+      className={cn(
+        "relative mx-auto cursor-pointer",
+        "min-h-[300px] w-full max-w-[90vw]",
+        "md:max-w-[1200px]",
+        "appearance-none border-0 bg-transparent p-0",
+        "mb-8 flex items-center justify-center",
+        className,
+      )}
+      onClick={handleToggle}
+      type="button"
     >
-      <AnimatePresence mode="wait">
-        {isExpanded ? (
-          <motion.div
-            key="expanded"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="max-h-[450px] overflow-y-auto scrollbar-hide rounded-2xl"
-            style={{
-              maskImage:
-                "linear-gradient(to bottom, transparent, black 24px, black calc(100% - 24px), transparent)",
-              WebkitMaskImage:
-                "linear-gradient(to bottom, transparent, black 24px, black calc(100% - 24px), transparent)",
-            }}
-          >
-            <div className="flex flex-col gap-3 py-6">
-              {childrenArray.map((child, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    delay: i * 0.03,
-                    type: "spring" as const,
-                    stiffness: 300,
-                    damping: 25,
-                  }}
-                >
-                  {child}
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        ) : (
-          <motion.div
-            key="stacked"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="relative"
-            style={{
-              height: `${80 + Math.min(childrenArray.length - 1, 3) * 12 + 16}px`,
-            }}
-          >
-            {childrenArray.map((child, i) => {
-              const reverseIndex = childrenArray.length - 1 - i;
-              const isVisible = reverseIndex < 4;
-
-              return (
-                <motion.div
-                  key={i}
-                  animate={{
-                    y: reverseIndex * 10,
-                    scale: 1 - reverseIndex * 0.035,
-                    opacity: isVisible ? 1 - reverseIndex * 0.2 : 0,
-                    zIndex: childrenArray.length - reverseIndex,
-                  }}
-                  transition={{
-                    type: "spring" as const,
-                    stiffness: 200,
-                    damping: 20,
-                  }}
-                  className="absolute inset-x-0 top-0"
-                  style={{ transformOrigin: "top center" }}
-                >
-                  {child}
-                </motion.div>
-              );
-            })}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+      {items.map((item, index) => (
+        <Card
+          index={index}
+          isExpanded={isExpanded}
+          key={item.id}
+          item={item}
+          totalCards={items.length}
+        />
+      ))}
+    </button>
   );
 }
