@@ -25,9 +25,20 @@ interface CardProps {
   index: number;
   totalCards: number;
   isExpanded: boolean;
+  isHovered: boolean;
+  onHover: () => void;
+  onLeave: () => void;
 }
 
-const Card = ({ item, index, totalCards, isExpanded }: CardProps) => {
+const Card = ({
+  item,
+  index,
+  totalCards,
+  isExpanded,
+  isHovered,
+  onHover,
+  onLeave,
+}: CardProps) => {
   const centerOffset = (totalCards - 1) * 5;
 
   const defaultX = index * 10 - centerOffset;
@@ -49,14 +60,16 @@ const Card = ({ item, index, totalCards, isExpanded }: CardProps) => {
 
   const Icon = item.icon;
 
+  const stackedZ = isHovered ? totalCards + 1 : totalCards - index;
+
   return (
     <motion.div
       animate={{
         x: isExpanded ? spreadX : defaultX,
-        y: isExpanded ? spreadY : defaultY,
-        rotate: isExpanded ? spreadRotate : defaultRotate,
-        scale: isExpanded ? spreadScale : defaultScale,
-        zIndex: totalCards - index,
+        y: isExpanded ? spreadY : isHovered ? -30 : defaultY,
+        rotate: isExpanded ? spreadRotate : isHovered ? 0 : defaultRotate,
+        scale: isExpanded ? spreadScale : isHovered ? 1.05 : defaultScale,
+        zIndex: stackedZ,
       }}
       className={cn(
         "absolute inset-0 w-full rounded-2xl p-6",
@@ -64,7 +77,7 @@ const Card = ({ item, index, totalCards, isExpanded }: CardProps) => {
         "border border-neutral-200/40",
         "backdrop-blur-xl backdrop-saturate-150",
         "shadow-[0_8px_20px_rgb(0,0,0,0.08)]",
-        "hover:shadow-[0_12px_40px_rgb(0,0,0,0.12)]",
+        isHovered && "shadow-[0_16px_50px_rgb(0,0,0,0.15)]",
         "transition-all duration-500 ease-out",
         "transform-gpu overflow-hidden",
       )}
@@ -74,13 +87,15 @@ const Card = ({ item, index, totalCards, isExpanded }: CardProps) => {
         rotate: defaultRotate,
         scale: defaultScale,
       }}
+      onMouseEnter={onHover}
+      onMouseLeave={onLeave}
       style={{
         maxWidth: "320px",
         transformStyle: "preserve-3d",
         perspective: "2000px",
         left: "50%",
         marginLeft: "-160px",
-        zIndex: totalCards - index,
+        zIndex: stackedZ,
       }}
       transition={{
         type: "spring",
@@ -134,6 +149,7 @@ interface CardStackProps {
 
 export function CardStack({ items, className }: CardStackProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const handleToggle = () => setIsExpanded(!isExpanded);
 
@@ -155,6 +171,9 @@ export function CardStack({ items, className }: CardStackProps) {
         <Card
           index={index}
           isExpanded={isExpanded}
+          isHovered={hoveredIndex === index}
+          onHover={() => setHoveredIndex(index)}
+          onLeave={() => setHoveredIndex(null)}
           key={item.id}
           item={item}
           totalCards={items.length}
