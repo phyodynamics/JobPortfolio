@@ -5,14 +5,12 @@ import SkillsSection from "@/components/SkillsSection";
 import ExperienceSection from "@/components/ExperienceSection";
 import ProjectsSection from "@/components/ProjectsSection";
 import ContactSection from "@/components/ContactSection";
-import CustomCursor from "@/components/CustomCursor";
 import FloatingResume from "@/components/FloatingResume";
 import SmoothScroll from "@/components/SmoothScroll";
 
 export default function Home() {
   return (
     <>
-      <CustomCursor />
       <SmoothScroll>
         <main className="bg-white text-black relative">
           <Navbar />
