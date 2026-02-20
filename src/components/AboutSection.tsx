@@ -43,9 +43,11 @@ export default function AboutSection() {
             >
               Who I Am
             </FadeUpWord>
-            I&apos;m a developer who loves building things. I&apos;ve shipped
-            30+ projects, including a full furniture store from the ground up.
-            I&apos;m just trying to get better every day and build cool stuff.
+            <p className="mt-4 text-gray-500 max-w-lg mx-auto leading-relaxed">
+              I&apos;m a developer who loves building things. I&apos;ve shipped
+              30+ projects, including a full furniture store from the ground up.
+              I&apos;m just trying to get better every day and build cool stuff.
+            </p>
           </div>
         </ScrollAnimation>
 

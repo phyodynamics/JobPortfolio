@@ -241,7 +241,7 @@ export default function ExperienceSection() {
           </div>
         </ScrollAnimation>
 
-        <div className="flex flex-col md:flex-row items-center md:items-start gap-12 md:gap-16">
+        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-16">
           {/* Activity Rings */}
           <div className="shrink-0">
             <div className="flex items-center">
@@ -260,7 +260,7 @@ export default function ExperienceSection() {
 
           {/* Experience list */}
           <div className="flex-1 w-full">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               {expItems.map((item, i) => (
                 <motion.div
                   key={item.title}

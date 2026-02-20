@@ -84,6 +84,7 @@ export default function ContactSection() {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={`${social.label}: ${social.handle}`}
                     className="group flex flex-col items-center gap-3 px-4 py-6 rounded-2xl border border-gray-100 hover:border-gray-300 hover:shadow-xl transition-all duration-300 bg-white"
                   >
                     <div className="w-12 h-12 rounded-xl bg-gray-50 flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all duration-300">
@@ -119,8 +120,8 @@ export default function ContactSection() {
 
         {/* Footer */}
         <div className="mt-24 pt-8 border-t border-gray-100 text-center">
-          <p className="text-xs text-gray-400">
-            © 2026 Phyo Zin Ko. Built with Next.js & Framer Motion.
+          <p className="text-xs text-gray-500">
+            © 2026 Phyo Zin Ko · Built with Next.js & Framer Motion
           </p>
         </div>
       </div>

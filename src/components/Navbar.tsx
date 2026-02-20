@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { useEffect, useState, useCallback, useSyncExternalStore } from "react";
+import { useEffect, useState } from "react";
 
 const navItems = {
   "#hero": { name: "home" },
@@ -67,10 +67,11 @@ export default function Navbar() {
             return (
               <button
                 className={clsx(
-                  "flex items-center justify-center bg-black p-1 px-2.5 sm:p-1.5 sm:px-4 text-xs sm:text-sm text-white transition-all duration-300 capitalize",
+                  "flex items-center justify-center bg-black p-1 px-2.5 sm:p-1.5 sm:px-4 text-xs sm:text-sm text-white transition-all duration-300 capitalize focus-visible:outline-white",
                   isActive
-                    ? "mx-1 sm:mx-2 rounded-xl font-semibold"
+                    ? "mx-1 sm:mx-2 rounded-xl font-semibold bg-gray-800"
                     : clsx(
+                        "hover:bg-gray-900",
                         (isActiveLink(prevPath || "") || isFirst) &&
                           "rounded-l-xl",
                         (isActiveLink(nextPath || "") || isLast) &&
@@ -79,6 +80,7 @@ export default function Navbar() {
                 )}
                 key={path}
                 onClick={() => handleClick(path)}
+                aria-current={isActive ? "true" : undefined}
               >
                 {name}
               </button>

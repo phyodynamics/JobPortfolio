@@ -178,7 +178,7 @@ export default function HeroSection() {
                 .querySelector("#projects")
                 ?.scrollIntoView({ behavior: "smooth" })
             }
-            className="px-7 py-3.5 bg-black text-white text-sm font-medium rounded-full hover:bg-gray-800 transition-all duration-300 hover:scale-105 hover:shadow-xl"
+            className="px-7 py-3.5 bg-black text-white text-sm font-medium rounded-full hover:bg-gray-800 transition-all duration-300 hover:scale-105 hover:shadow-xl focus-visible:outline-white"
           >
             Check My Work
           </button>
@@ -188,7 +188,7 @@ export default function HeroSection() {
                 .querySelector("#contact")
                 ?.scrollIntoView({ behavior: "smooth" })
             }
-            className="px-7 py-3.5 border border-gray-300 text-black text-sm font-medium rounded-full hover:border-black transition-all duration-300 hover:scale-105"
+            className="px-7 py-3.5 border border-gray-300 text-black text-sm font-medium rounded-full hover:border-black transition-all duration-300 hover:scale-105 focus-visible:outline-black"
           >
             Say Hi
           </button>
@@ -202,6 +202,7 @@ export default function HeroSection() {
         transition={{ delay: 1.5, duration: 0.8 }}
         style={{ opacity: textOpacity }}
         className="absolute bottom-10 flex flex-col items-center gap-2"
+        aria-hidden="true"
       >
         <span className="text-[10px] text-gray-400 tracking-[0.3em] uppercase">
           Scroll

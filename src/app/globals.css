@@ -92,6 +92,18 @@
     font-feature-settings:
       "rlig" 1,
       "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  /* Accessible focus ring for keyboard navigation */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-black rounded-sm;
+  }
+  /* Smooth transitions everywhere */
+  a,
+  button {
+    @apply transition-colors duration-200;
   }
 }
 
