@@ -109,22 +109,23 @@ const projects = [
     screenshot: "/images/Screenshot/Furniture.png",
     content: (
       <ProjectContent
-        description="A full-stack e-commerce furniture store built entirely from scratch — no AI assistance. Features a polished frontend with Shadcn UI, a secure Express backend with robust authentication (login, register, password change), Prisma ORM for database management, and comprehensive route controlling."
+        description="A full-stack e-commerce furniture store built entirely from scratch — no AI assistance. I personally designed the system architecture, database schema with Prisma ORM, and implemented secure authentication (JWT-based login, register, password change) with Express.js. Features role-based route protection, input validation with Zod, and a polished Shadcn UI frontend."
         tech={[
           "TypeScript",
           "React",
           "Shadcn UI",
           "Express",
           "Prisma",
+          "PostgreSQL",
+          "JWT Auth",
           "Zod",
-          "JWT",
         ]}
         features={[
-          "Full authentication system (login, register, change password)",
-          "High-security backend with Express & Zod validation",
-          "Prisma database with relational data modeling",
-          "API integration with route-level access control",
-          "Responsive UI built with Shadcn components",
+          "Designed database schema & relational data modeling with Prisma",
+          "Implemented JWT authentication & role-based access control",
+          "Built secure REST API with Express & Zod input validation",
+          "Route-level protection & middleware architecture",
+          "Responsive UI with Shadcn components",
         ]}
         badge="Built from scratch"
         repoUrl="https://github.com/phyodynamics/furniture-fullstack"
@@ -138,20 +139,22 @@ const projects = [
     screenshot: "/images/Screenshot/ZenWriter.PNG",
     content: (
       <ProjectContent
-        description="A Burmese AI content writer powered by Gemini 2.5 Flash, serving 400+ active users. Offers 4 intelligent content generation modes — detailed input, conversational prompt, short-to-attractive text transformation, and neuro-marketing based writing — plus a Lab mode for AI-powered A/B testing."
+        description="A Burmese AI content writer serving 400+ active users. I designed the multi-mode content generation system, user authentication architecture, and admin dashboard. Integrated Gemini 2.5 Flash API for 4 content generation modes — detailed input, conversational prompt, text transformation, and neuro-marketing — plus a Lab mode for AI-powered A/B testing."
         tech={[
           "TypeScript",
           "Next.js",
-          "Gemini AI",
-          "Authentication",
+          "Gemini AI API",
+          "JWT Auth",
+          "PostgreSQL",
           "Admin Panel",
+          "Vercel",
         ]}
         features={[
-          "4 content generation modes + Lab mode (AI A/B testing)",
-          "Neuro-marketing based content writing",
-          "User accounts with admin panel",
-          "400+ active users",
-          "High security with authentication system",
+          "Designed multi-mode AI content generation system architecture",
+          "4 content modes + Lab mode (AI A/B testing)",
+          "Built user authentication & admin dashboard from scratch",
+          "400+ active users with secure session management",
+          "Deployed on Vercel with production-grade security",
         ]}
         liveUrl="https://www.zenwriter.online/"
       />
@@ -164,21 +167,22 @@ const projects = [
     screenshot: "/images/Screenshot/PyawKyi.PNG",
     content: (
       <ProjectContent
-        description="A voice-powered AI tool with 5 intelligent modes — Polish (refine text from voice), Plan (create actionable plans), Craft (write marketing content), Build (generate mini apps), and Learn (study topics with flashcards). Includes a public API with docs, developer API keys, Google OAuth, web push notifications, maintenance & waitlist modes."
+        description="A voice-powered AI platform I architected with 5 intelligent modes — Polish, Plan, Craft, Build, and Learn. I designed the API platform architecture enabling users to generate their own API keys, built the Google OAuth integration, implemented web push notifications, and created maintenance & waitlist mode systems."
         tech={[
           "TypeScript",
           "Next.js",
           "Google OAuth",
-          "Speech AI",
-          "API Platform",
+          "Speech-to-Text AI",
+          "REST API Platform",
           "Web Push",
+          "Vercel",
         ]}
         features={[
-          "5 voice modes: Polish, Plan, Craft, Build, Learn",
-          "Build mode creates actionable mini apps from voice",
-          "Learn mode generates paragraphs, notes & flashcards",
-          "Public API & docs — users can generate their own API keys",
-          "Maintenance mode, waitlist mode & web push notifications",
+          "Architected 5-mode voice processing pipeline",
+          "Build mode generates actionable mini apps from voice",
+          "Designed public API platform with key generation & docs",
+          "Implemented Google OAuth & secure session management",
+          "Built maintenance mode, waitlist & web push notification systems",
         ]}
         liveUrl="https://pyawkyi.phyozinko.com/"
       />
@@ -191,21 +195,22 @@ const projects = [
     screenshot: "/images/Screenshot/NuFlowOs.PNG",
     content: (
       <ProjectContent
-        description="A comprehensive productivity life system featuring a live clock, year countdown, and 5 powerful sections — Daily To-Do (with time blocking), Daily Journaling (with voice-to-text AI), Monthly Summary (AI-assisted), Note Master (AI-assisted), and Projects (with progress bars, donut charts, and task management). Includes an AI chatbot that lets users interact with their own data by mentioning entry titles."
+        description="A comprehensive productivity life system I designed with Notion API as the database layer. I architected the 5-section system — Daily To-Do (time blocking), Journaling (voice-to-text AI), Monthly Summary, Note Master, and Projects (with progress tracking). Built an AI chatbot that queries user data by title mention, and designed the admin panel."
         tech={[
           "TypeScript",
           "Next.js",
           "Notion API",
-          "Speech AI",
+          "Speech-to-Text AI",
           "AI Chatbot",
           "Admin Panel",
+          "Vercel",
         ]}
         features={[
-          "5 sections: To-Do, Journaling, Monthly Summary, Notes, Projects",
-          "Voice-to-text AI writing in journaling, summaries & notes",
-          "AI chatbot — speak with your own data by mentioning titles",
-          "Project tracking with progress bars & donut charts",
-          "Uses user's own Notion as database",
+          "Designed 5-section productivity system architecture",
+          "Integrated Notion API as user-owned database layer",
+          "Built AI chatbot for querying personal data by title mention",
+          "Implemented voice-to-text AI across journaling, summaries & notes",
+          "Project tracking with progress bars, donut charts & task CRUD",
         ]}
         liveUrl="https://nuflowos.com/"
       />
@@ -218,21 +223,23 @@ const projects = [
     screenshot: "/images/Screenshot/Vora.PNG",
     content: (
       <ProjectContent
-        description="A full-featured e-commerce platform where users can create accounts, browse products, place orders, and track order status in real-time. Features an AI chatbot that understands product queries by mention, Baht-to-Kyat currency conversion, automatic service fee calculation, and a comprehensive admin panel."
+        description="A full-featured e-commerce platform I designed with user authentication, order management, and real-time status tracking. I architected the Baht-to-Kyat currency conversion system, service fee calculation logic, and integrated an AI chatbot that understands product queries. Built a comprehensive admin panel for store management."
         tech={[
           "TypeScript",
           "Next.js",
           "AI Chatbot",
-          "Authentication",
+          "JWT Auth",
+          "PostgreSQL",
           "Admin Panel",
           "Payment Logic",
+          "Vercel",
         ]}
         features={[
-          "AI chatbot — ask about any product by mentioning its name",
-          "User accounts with order tracking & status updates",
-          "Baht to Kyat currency conversion logic",
-          "Service fees calculation & payment processing",
-          "Full admin panel for store management",
+          "Designed order management system with real-time status tracking",
+          "Built AI chatbot for product queries by name mention",
+          "Architected Baht-to-Kyat currency conversion & fee calculation",
+          "Implemented JWT authentication & user account management",
+          "Full admin panel for product, order & store management",
         ]}
         liveUrl="https://www.vora.asia/"
       />

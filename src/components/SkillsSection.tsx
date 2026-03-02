@@ -18,6 +18,10 @@ import {
   Plug,
   ShieldCheck,
   Rocket,
+  Cloud,
+  Container,
+  Lock,
+  Bot,
 } from "lucide-react";
 import { FadeUpWord } from "@/components/ui/fade-up-word";
 import ScrollAnimation from "./ScrollAnimation";
@@ -37,8 +41,12 @@ const skills = [
   { name: "GraphQL API", icon: Boxes, category: "Backend" },
   { name: "API Integration", icon: Plug, category: "Backend" },
   { name: "Prisma ORM", icon: Database, category: "Backend" },
+  { name: "JWT & OAuth", icon: Lock, category: "Security" },
   { name: "Testing", icon: TestTube, category: "Backend" },
   { name: "Git & GitHub", icon: GitBranch, category: "Tools" },
+  { name: "Vercel & AWS", icon: Cloud, category: "DevOps" },
+  { name: "Docker", icon: Container, category: "DevOps" },
+  { name: "AI Integration", icon: Bot, category: "AI" },
   { name: "Optimization", icon: ShieldCheck, category: "Tools" },
 ];
 

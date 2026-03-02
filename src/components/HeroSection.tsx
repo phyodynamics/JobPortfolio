@@ -163,7 +163,7 @@ export default function HeroSection() {
           transition={{ delay: 0.8, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="mt-6 text-lg md:text-xl text-gray-500 text-center max-w-lg"
         >
-          I build cool stuff for the web · UI/UX Explorer · Sharing what I learn
+          Full Stack Developer · Systems Architect · AI-Powered Builder
         </motion.p>
 
         <motion.div

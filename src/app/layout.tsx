@@ -10,7 +10,7 @@ const fontSans = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   title: "Phyo Zin Ko — Full Stack Developer",
   description:
-    "Full Stack Web Developer portfolio. React, Next.js, Node.js, Express, GraphQL, Redux, Prisma, and more. 30+ real-world projects.",
+    "Full Stack Developer & Systems Architect. Building production-ready web applications with React, Next.js, Node.js, TypeScript, Prisma, and AI integration. 30+ shipped projects deployed on Vercel & AWS.",
   keywords: [
     "Phyo Zin Ko",
     "Full Stack Developer",

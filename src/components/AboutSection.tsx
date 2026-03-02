@@ -23,8 +23,8 @@ const highlights = [
   },
   {
     icon: Sparkles,
-    title: "Vibe Coding Pro",
-    desc: "I use AI tools like Cursor to build faster. It's not cheating, it's efficient.",
+    title: "AI-Assisted Systems Architect",
+    desc: "I design system architectures, databases, and security layers — then leverage AI tools to accelerate development without compromising quality.",
   },
 ];
 
@@ -44,9 +44,11 @@ export default function AboutSection() {
               Who I Am
             </FadeUpWord>
             <p className="mt-4 text-gray-500 max-w-lg mx-auto leading-relaxed">
-              I&apos;m a developer who loves building things. I&apos;ve shipped
-              30+ projects, including a full furniture store from the ground up.
-              I&apos;m just trying to get better every day and build cool stuff.
+              I&apos;m a developer who architects and builds full-stack systems
+              from the ground up. With 30+ shipped projects — including a
+              self-coded e-commerce platform with secure authentication,
+              database design, and API architecture — I focus on writing
+              production-ready, scalable code.
             </p>
           </div>
         </ScrollAnimation>
