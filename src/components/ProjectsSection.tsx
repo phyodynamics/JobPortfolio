@@ -105,7 +105,8 @@ const projects = [
   {
     category: "Full Stack · Self-Coded",
     title: "Furniture E-Commerce",
-    src: "/images/Furniture.png",
+    src: "/images/ThumbNail/FurnitureShop.png",
+    screenshot: "/images/Screenshot/Furniture.png",
     content: (
       <ProjectContent
         description="A full-stack e-commerce furniture store built entirely from scratch — no AI assistance. Features a polished frontend with Shadcn UI, a secure Express backend with robust authentication (login, register, password change), Prisma ORM for database management, and comprehensive route controlling."
@@ -133,7 +134,8 @@ const projects = [
   {
     category: "AI · Content Writing · 400+ Users",
     title: "Zen Writer",
-    src: "/images/ZenWriter.PNG",
+    src: "/images/ThumbNail/ZenWriter.png",
+    screenshot: "/images/Screenshot/ZenWriter.PNG",
     content: (
       <ProjectContent
         description="A Burmese AI content writer powered by Gemini 2.5 Flash, serving 400+ active users. Offers 4 intelligent content generation modes — detailed input, conversational prompt, short-to-attractive text transformation, and neuro-marketing based writing — plus a Lab mode for AI-powered A/B testing."
@@ -158,7 +160,8 @@ const projects = [
   {
     category: "AI · Voice · API Platform",
     title: "Pyaw Kyi",
-    src: "/images/PyawKyi.PNG",
+    src: "/images/ThumbNail/PyawKyi.png",
+    screenshot: "/images/Screenshot/PyawKyi.PNG",
     content: (
       <ProjectContent
         description="A voice-powered AI tool with 5 intelligent modes — Polish (refine text from voice), Plan (create actionable plans), Craft (write marketing content), Build (generate mini apps), and Learn (study topics with flashcards). Includes a public API with docs, developer API keys, Google OAuth, web push notifications, maintenance & waitlist modes."
@@ -184,7 +187,8 @@ const projects = [
   {
     category: "Productivity · AI · Life System",
     title: "NuFlow OS",
-    src: "/images/NuFlowOs.PNG",
+    src: "/images/ThumbNail/NuFlowOs.png",
+    screenshot: "/images/Screenshot/NuFlowOs.PNG",
     content: (
       <ProjectContent
         description="A comprehensive productivity life system featuring a live clock, year countdown, and 5 powerful sections — Daily To-Do (with time blocking), Daily Journaling (with voice-to-text AI), Monthly Summary (AI-assisted), Note Master (AI-assisted), and Projects (with progress bars, donut charts, and task management). Includes an AI chatbot that lets users interact with their own data by mentioning entry titles."
@@ -210,7 +214,8 @@ const projects = [
   {
     category: "E-Commerce · AI Chatbot",
     title: "Vora",
-    src: "/images/Vora.PNG",
+    src: "/images/ThumbNail/Vora.png",
+    screenshot: "/images/Screenshot/Vora.PNG",
     content: (
       <ProjectContent
         description="A full-featured e-commerce platform where users can create accounts, browse products, place orders, and track order status in real-time. Features an AI chatbot that understands product queries by mention, Baht-to-Kyat currency conversion, automatic service fee calculation, and a comprehensive admin panel."

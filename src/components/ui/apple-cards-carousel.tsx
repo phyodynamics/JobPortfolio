@@ -26,6 +26,7 @@ type Card = {
   title: string;
   category: string;
   content: React.ReactNode;
+  screenshot?: string;
 };
 
 export const CarouselContext = createContext<{
@@ -230,6 +231,16 @@ export const Card = ({
               >
                 {card.title}
               </motion.p>
+              {card.screenshot && (
+                <div className="mt-6 overflow-hidden rounded-2xl border border-gray-200">
+                  <img
+                    src={card.screenshot}
+                    alt={`${card.title} screenshot`}
+                    className="w-full h-auto object-cover"
+                    loading="lazy"
+                  />
+                </div>
+              )}
               <div className="py-10">{card.content}</div>
             </motion.div>
           </div>
@@ -238,9 +249,9 @@ export const Card = ({
       <motion.button
         layoutId={layout ? `card-${card.title}` : undefined}
         onClick={handleOpen}
-        className="relative z-10 flex h-80 w-56 flex-col items-start justify-start overflow-hidden rounded-3xl bg-gray-100 md:h-[40rem] md:w-96 dark:bg-neutral-900"
+        className="relative z-10 flex h-80 w-56 flex-col items-start justify-end overflow-hidden rounded-3xl bg-gray-100 md:h-[40rem] md:w-96 dark:bg-neutral-900"
       >
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-30 h-full bg-gradient-to-b from-black/50 via-transparent to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 h-2/3 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
         <div className="relative z-40 p-8">
           <motion.p
             layoutId={layout ? `category-${card.category}` : undefined}
