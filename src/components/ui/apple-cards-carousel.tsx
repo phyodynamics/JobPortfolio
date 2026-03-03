@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
 import Image, { ImageProps } from "next/image";
 import { useOutsideClick } from "@/hooks/use-outside-click";
+import { useLenis } from "@/components/SmoothScroll";
 
 interface CarouselProps {
   items: React.ReactElement[];
@@ -165,6 +166,7 @@ export const Card = ({
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const { onCardClose, currentIndex } = useContext(CarouselContext);
+  const lenis = useLenis();
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -175,8 +177,10 @@ export const Card = ({
 
     if (open) {
       document.body.style.overflow = "hidden";
+      lenis?.stop();
     } else {
       document.body.style.overflow = "auto";
+      lenis?.start();
     }
 
     window.addEventListener("keydown", onKeyDown);
@@ -192,6 +196,7 @@ export const Card = ({
   const handleClose = () => {
     setOpen(false);
     onCardClose(index);
+    lenis?.start();
   };
 
   return (
