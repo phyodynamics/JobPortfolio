@@ -6,7 +6,7 @@ import { FileDown } from "lucide-react";
 export default function FloatingResume() {
   return (
     <motion.a
-      href="/Phyo_zin_ko_resume.pdf"
+      href="/Phyo%20Zin%20Ko%20Resume.pdf"
       download
       aria-label="Download Resume"
       initial={{ opacity: 0, y: 20 }}

@@ -1,53 +1,56 @@
 "use client";
 
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import {
-  Globe,
-  FileCode2,
-  Paintbrush,
-  Server,
-  Database,
-  GitBranch,
-  TestTube,
-  Layers,
-  LayoutDashboard,
-  Cpu,
-  Workflow,
-  Boxes,
-  Braces,
-  Plug,
-  ShieldCheck,
-  Rocket,
-  Cloud,
-  Container,
-  Lock,
-  Bot,
-} from "lucide-react";
 import { FadeUpWord } from "@/components/ui/fade-up-word";
 import ScrollAnimation from "./ScrollAnimation";
 import { useRef, MouseEvent } from "react";
+import Image from "next/image";
 
 const skills = [
-  { name: "HTML & CSS", icon: Globe, category: "Frontend" },
-  { name: "React", icon: FileCode2, category: "Frontend" },
-  { name: "Next.js", icon: LayoutDashboard, category: "Frontend" },
-  { name: "TypeScript", icon: Braces, category: "Frontend" },
-  { name: "Tailwind CSS", icon: Paintbrush, category: "Frontend" },
-  { name: "Redux / RTK Query", icon: Layers, category: "State" },
-  { name: "React Compiler", icon: Cpu, category: "Frontend" },
-  { name: "Navigation", icon: Workflow, category: "Frontend" },
-  { name: "Node.js", icon: Server, category: "Backend" },
-  { name: "Express.js", icon: Rocket, category: "Backend" },
-  { name: "GraphQL API", icon: Boxes, category: "Backend" },
-  { name: "API Integration", icon: Plug, category: "Backend" },
-  { name: "Prisma ORM", icon: Database, category: "Backend" },
-  { name: "JWT & OAuth", icon: Lock, category: "Security" },
-  { name: "Testing", icon: TestTube, category: "Backend" },
-  { name: "Git & GitHub", icon: GitBranch, category: "Tools" },
-  { name: "Vercel & AWS", icon: Cloud, category: "DevOps" },
-  { name: "Docker", icon: Container, category: "DevOps" },
-  { name: "AI Integration", icon: Bot, category: "AI" },
-  { name: "Optimization", icon: ShieldCheck, category: "Tools" },
+  { name: "HTML & CSS", svg: "/images/tech/html5.svg", category: "Frontend" },
+  { name: "React", svg: "/images/tech/react.svg", category: "Frontend" },
+  { name: "Next.js", svg: "/images/tech/nextjs.svg", category: "Frontend" },
+  {
+    name: "TypeScript",
+    svg: "/images/tech/typescript.svg",
+    category: "Frontend",
+  },
+  {
+    name: "Tailwind CSS",
+    svg: "/images/tech/tailwind.svg",
+    category: "Frontend",
+  },
+  {
+    name: "Redux / RTK Query",
+    svg: "/images/tech/redux.svg",
+    category: "State",
+  },
+  {
+    name: "React Compiler",
+    svg: "/images/tech/react.svg",
+    category: "Frontend",
+  },
+  {
+    name: "Navigation",
+    svg: "/images/tech/reactrouter.svg",
+    category: "Frontend",
+  },
+  { name: "Node.js", svg: "/images/tech/nodejs.svg", category: "Backend" },
+  { name: "Express.js", svg: "/images/tech/express.svg", category: "Backend" },
+  { name: "GraphQL API", svg: "/images/tech/graphql.svg", category: "Backend" },
+  { name: "API Integration", svg: "/images/tech/api.svg", category: "Backend" },
+  { name: "Prisma ORM", svg: "/images/tech/prisma.svg", category: "Backend" },
+  { name: "JWT & OAuth", svg: "/images/tech/jwt.svg", category: "Security" },
+  { name: "Testing", svg: "/images/tech/jest.svg", category: "Backend" },
+  { name: "Git & GitHub", svg: "/images/tech/git.svg", category: "Tools" },
+  { name: "Vercel & AWS", svg: "/images/tech/vercel.svg", category: "DevOps" },
+  { name: "Docker", svg: "/images/tech/docker.svg", category: "DevOps" },
+  { name: "AI Integration", svg: "/images/tech/openai.svg", category: "AI" },
+  {
+    name: "Optimization",
+    svg: "/images/tech/optimization.svg",
+    category: "Tools",
+  },
 ];
 
 function SkillCard({ skill }: { skill: (typeof skills)[number] }) {
@@ -90,10 +93,16 @@ function SkillCard({ skill }: { skill: (typeof skills)[number] }) {
       className="group flex flex-col items-center gap-3 p-6 rounded-2xl bg-white border border-gray-100 hover:border-gray-200 hover:shadow-xl transition-shadow cursor-default"
     >
       <div
-        className="w-11 h-11 rounded-xl bg-gray-50 flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all duration-300"
+        className="w-11 h-11 rounded-xl bg-gray-50 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
         style={{ transform: "translateZ(30px)" }}
       >
-        <skill.icon size={20} strokeWidth={1.5} />
+        <Image
+          src={skill.svg}
+          alt={skill.name}
+          width={24}
+          height={24}
+          className="w-6 h-6 object-contain"
+        />
       </div>
       <span
         className="text-sm font-medium text-gray-700 text-center"
