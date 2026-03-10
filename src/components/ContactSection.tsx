@@ -8,6 +8,7 @@ import {
   MapPin,
   MessageCircle,
   Facebook,
+  Linkedin,
 } from "lucide-react";
 import { FadeUpWord } from "@/components/ui/fade-up-word";
 import ScrollAnimation from "./ScrollAnimation";
@@ -36,6 +37,12 @@ const socials = [
     label: "Facebook",
     href: "https://www.facebook.com/share/1DqEDhhG88/?mibextid=wwXIfr",
     handle: "Phyo Zin Ko",
+  },
+  {
+    icon: Linkedin,
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/phyozinko",
+    handle: "phyozinko",
   },
 ];
 
@@ -74,7 +81,7 @@ export default function ContactSection() {
             </motion.div>
 
             {/* Social Links Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-2xl">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 w-full max-w-3xl">
               {socials.map((social, i) => (
                 <ScrollAnimation
                   key={social.label}
