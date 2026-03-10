@@ -45,7 +45,7 @@ const skills = [
   { name: "Git & GitHub", svg: "/images/tech/git.svg", category: "Tools" },
   { name: "Vercel & AWS", svg: "/images/tech/vercel.svg", category: "DevOps" },
   { name: "Docker", svg: "/images/tech/docker.svg", category: "DevOps" },
-  { name: "AI Integration", svg: "/images/tech/openai.svg", category: "AI" },
+  { name: "AI Integration", svg: "/images/tech/gemini.svg", category: "AI" },
   {
     name: "Optimization",
     svg: "/images/tech/optimization.svg",
