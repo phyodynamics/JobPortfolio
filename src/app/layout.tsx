@@ -28,6 +28,10 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
   },
+  icons: {
+    icon: "/images/My_Img.jpeg",
+    apple: "/images/My_Img.jpeg",
+  },
   other: {
     "theme-color": "#000000",
   },
