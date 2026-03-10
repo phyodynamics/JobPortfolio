@@ -29,8 +29,8 @@ export const metadata: Metadata = {
     locale: "en_US",
   },
   icons: {
-    icon: "/images/me.jpg",
-    apple: "/images/me.jpg",
+    icon: "/images/mee.jpg",
+    apple: "/images/mee.jpg",
   },
   other: {
     "theme-color": "#000000",

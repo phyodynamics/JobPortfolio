@@ -125,7 +125,7 @@ export default function HeroSection() {
         <CloudOrbit
           duration={3}
           size={130}
-          images={[{ name: "Profile", url: "/images/me.jpg" }]}
+          images={[{ name: "Profile", url: "/images/mee.jpg" }]}
           className="w-full h-full"
         >
           {orbitingImagesData.map((orbit, index) => (
