@@ -103,6 +103,34 @@ function ProjectContent({
 
 const projects = [
   {
+    category: "EdTech · AI Platform (In Development)",
+    title: "Wisdom Academy",
+    src: "/images/ThumbNail/WisdomAcademy.png",
+    screenshot: "/images/Screenshot/WisdomAcademy.png",
+    content: (
+      <ProjectContent
+        description="A comprehensive EdTech platform I am building for Myanmar Grade 12 students. I architected a gamified deep-focus learning environment with personalized AI tutors, interactive subject-based tools, and a collaborative team learning system for students and teachers."
+        tech={[
+          "TypeScript",
+          "Next.js",
+          "PostgreSQL",
+          "AI Tutor API",
+          "WebRTC",
+          "Gamification",
+        ]}
+        features={[
+          "Virtual learning environments with seat selection for deep focus",
+          "AI-generated dynamic practice assessments (MCQs, fill-in-the-blanks, definitions)",
+          "Custom AI Tutors personalized via student onboarding questionnaires",
+          "Rich gamified progress tracking with leveling algorithms",
+          "Team structures (up to 10 students) with group chat and calling capabilities",
+          "Teacher accounts featuring unlimited student tracking and AI tutor integrations",
+        ]}
+        badge="In Development"
+      />
+    ),
+  },
+  {
     category: "Full Stack · Self-Coded",
     title: "Furniture E-Commerce",
     src: "/images/ThumbNail/FurnitureShop.png",
