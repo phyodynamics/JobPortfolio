@@ -55,6 +55,7 @@ const skills = [
   { name: "C#", svg: "/images/tech/csharp.svg", category: "Language" },
   { name: "J2SE", svg: "/images/tech/java.svg", category: "Java" },
   { name: "J2EE", svg: "/images/tech/java.svg", category: "Java" },
+  { name: "PHP", svg: "/images/tech/php.svg", category: "Language" },
 ];
 
 function SkillCard({ skill }: { skill: (typeof skills)[number] }) {
