@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
-const fontSans = Plus_Jakarta_Sans({
+const fontSans = Space_Grotesk({
   variable: "--font-sans",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -33,7 +34,7 @@ export const metadata: Metadata = {
     apple: "/images/favicon.ico",
   },
   other: {
-    "theme-color": "#000000",
+    "theme-color": "#ffffff",
   },
 };
 
@@ -43,10 +44,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en">
       <body
         className={`${fontSans.variable} font-sans antialiased bg-white text-black`}
       >
+        <div className="noise-overlay" />
         {children}
       </body>
     </html>

@@ -1,135 +1,104 @@
 "use client";
 
-import { motion } from "framer-motion";
-import {
-  Mail,
-  Github,
-  Send,
-  MapPin,
-  MessageCircle,
-  Facebook,
-  Linkedin,
-} from "lucide-react";
-import { FadeUpWord } from "@/components/ui/fade-up-word";
-import ScrollAnimation from "./ScrollAnimation";
+import { useRef, useEffect, useCallback, MouseEvent } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Mail, Github, Send, MapPin, MessageCircle, Facebook, Linkedin, type LucideIcon } from "lucide-react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const socials = [
-  {
-    icon: Github,
-    label: "GitHub",
-    href: "https://github.com/phyodynamics",
-    handle: "@phyodynamics",
-  },
-  {
-    icon: MessageCircle,
-    label: "Telegram",
-    href: "https://t.me/phyodynamic",
-    handle: "@phyodynamic",
-  },
-  {
-    icon: Mail,
-    label: "Email",
-    href: "mailto:phyodynamics@gmail.com",
-    handle: "phyodynamics@gmail.com",
-  },
-  {
-    icon: Facebook,
-    label: "Facebook",
-    href: "https://www.facebook.com/share/1DqEDhhG88/?mibextid=wwXIfr",
-    handle: "Phyo Zin Ko",
-  },
-  {
-    icon: Linkedin,
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/in/phyozinko",
-    handle: "phyozinko",
-  },
+  { icon: Github, label: "GitHub", href: "https://github.com/phyodynamics", handle: "@phyodynamics" },
+  { icon: MessageCircle, label: "Telegram", href: "https://t.me/phyodynamic", handle: "@phyodynamic" },
+  { icon: Mail, label: "Email", href: "mailto:phyodynamics@gmail.com", handle: "phyodynamics@gmail.com" },
+  { icon: Facebook, label: "Facebook", href: "https://www.facebook.com/share/1DqEDhhG88/?mibextid=wwXIfr", handle: "Phyo Zin Ko" },
+  { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/phyozinko", handle: "phyozinko" },
 ];
 
-export default function ContactSection() {
+function MagneticLink({ icon: Icon, label, href, handle }: { icon: LucideIcon; label: string; href: string; handle: string }) {
+  const ref = useRef<HTMLAnchorElement>(null);
+  const handleMouseMove = useCallback((e: MouseEvent<HTMLAnchorElement>) => {
+    const el = ref.current; if (!el) return;
+    const rect = el.getBoundingClientRect();
+    gsap.to(el, { x: (e.clientX - rect.left - rect.width / 2) * 0.3, y: (e.clientY - rect.top - rect.height / 2) * 0.3, duration: 0.3, ease: "power2.out" });
+  }, []);
+  const handleMouseLeave = useCallback(() => { gsap.to(ref.current!, { x: 0, y: 0, duration: 0.7, ease: "elastic.out(1, 0.3)" }); }, []);
+
   return (
-    <section id="contact" className="py-32 px-6">
-      <div className="max-w-3xl mx-auto">
-        <ScrollAnimation variant="flip">
-          <div className="text-center mb-16">
-            <p className="text-xs tracking-[0.3em] uppercase text-gray-400 mb-4">
-              Contact
-            </p>
-            <FadeUpWord
-              as="h2"
-              className="text-4xl md:text-5xl font-bold text-black justify-center"
-            >
-              Let&apos;s Build Something
-            </FadeUpWord>
-            <p className="mt-4 text-gray-500 max-w-lg mx-auto">
-              Got an idea? I&apos;m listening. My inbox is always open.
-            </p>
+    <a ref={ref} href={href} target="_blank" rel="noopener noreferrer" onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}
+      className="social-link group flex items-center gap-4 py-4 px-5 rounded-xl border border-gray-100 bg-white hover:border-gray-300 hover:shadow-lg transition-all" style={{ willChange: "transform" }}>
+      <div className="w-10 h-10 rounded-lg bg-gray-50 flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all duration-300"><Icon size={18} /></div>
+      <div><p className="text-sm font-medium text-black">{label}</p><p className="text-[11px] text-gray-400 truncate max-w-[180px]">{handle}</p></div>
+    </a>
+  );
+}
+
+export default function ContactSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const bigTextRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const ctaRef = useRef<HTMLAnchorElement>(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    const bigText = bigTextRef.current;
+    const content = contentRef.current;
+    if (!section || !bigText || !content) return;
+
+    const ctx = gsap.context(() => {
+      const chars = bigText.querySelectorAll(".big-char");
+      gsap.fromTo(chars, { y: 200, opacity: 0, rotateX: -90 }, {
+        y: 0, opacity: 1, rotateX: 0, stagger: 0.04, duration: 1, ease: "expo.out",
+        scrollTrigger: { trigger: bigText, start: "top 80%", toggleActions: "play none none reverse" },
+      });
+
+      const sub = bigText.querySelector(".contact-sub");
+      gsap.fromTo(sub!, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8, scrollTrigger: { trigger: bigText, start: "top 70%", toggleActions: "play none none reverse" } });
+
+      const links = content.querySelectorAll(".social-link");
+      gsap.fromTo(links, { opacity: 0, x: -40 }, { opacity: 1, x: 0, stagger: 0.08, duration: 0.6, ease: "power3.out", scrollTrigger: { trigger: content, start: "top 80%", toggleActions: "play none none reverse" } });
+
+      if (ctaRef.current) {
+        gsap.fromTo(ctaRef.current, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(2)", scrollTrigger: { trigger: ctaRef.current, start: "top 90%", toggleActions: "play none none reverse" } });
+      }
+    }, section);
+    return () => ctx.revert();
+  }, []);
+
+  const handleCtaMove = useCallback((e: MouseEvent<HTMLAnchorElement>) => {
+    const el = ctaRef.current; if (!el) return;
+    const rect = el.getBoundingClientRect();
+    gsap.to(el, { x: (e.clientX - rect.left - rect.width / 2) * 0.35, y: (e.clientY - rect.top - rect.height / 2) * 0.35, scale: 1.1, duration: 0.3, ease: "power2.out" });
+  }, []);
+  const handleCtaLeave = useCallback(() => { gsap.to(ctaRef.current!, { x: 0, y: 0, scale: 1, duration: 0.8, ease: "elastic.out(1, 0.3)" }); }, []);
+
+  const bigText = "LET'S TALK";
+
+  return (
+    <section ref={sectionRef} id="contact" className="py-32 px-6 relative">
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full bg-[#FF2D55]/[0.03] blur-[150px] pointer-events-none" />
+      <div className="max-w-6xl mx-auto relative z-10">
+        <div ref={bigTextRef} className="text-center mb-20">
+          <h2 className="text-6xl md:text-9xl lg:text-[12rem] font-bold text-black tracking-tighter leading-[0.85] overflow-hidden" style={{ perspective: "1000px" }}>
+            {bigText.split("").map((char, i) => <span key={i} className="big-char inline-block">{char === " " ? "\u00A0" : char}</span>)}
+          </h2>
+          <p className="contact-sub mt-6 text-gray-400 text-lg max-w-md mx-auto">Got an idea? I&apos;m listening. My inbox is always open.</p>
+        </div>
+        <div ref={contentRef} className="flex flex-col lg:flex-row gap-12 items-start">
+          <div className="flex-1">
+            <div className="flex items-center gap-2 text-gray-400 mb-8"><MapPin size={16} /><span className="text-sm">Myanmar</span></div>
+            <a ref={ctaRef} href="mailto:phyodynamics@gmail.com" onMouseMove={handleCtaMove} onMouseLeave={handleCtaLeave}
+              className="inline-flex items-center gap-3 px-10 py-5 bg-black text-white text-base font-semibold rounded-full hover:shadow-[0_0_40px_rgba(255,45,85,0.2)] transition-shadow duration-300" style={{ willChange: "transform" }}>
+              <Send size={18} />Drop a Message
+            </a>
           </div>
-        </ScrollAnimation>
-
-        <ScrollAnimation variant="rise">
-          <div className="flex flex-col items-center gap-8">
-            {/* Location */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="flex items-center gap-2 text-gray-500"
-            >
-              <MapPin size={16} />
-              <span className="text-sm">Myanmar</span>
-            </motion.div>
-
-            {/* Social Links Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 w-full max-w-3xl">
-              {socials.map((social, i) => (
-                <ScrollAnimation
-                  key={social.label}
-                  variant={i % 2 === 0 ? "tiltLeft" : "tiltRight"}
-                >
-                  <a
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`${social.label}: ${social.handle}`}
-                    className="group flex flex-col items-center gap-3 px-4 py-6 rounded-2xl border border-gray-100 hover:border-gray-300 hover:shadow-xl transition-all duration-300 bg-white"
-                  >
-                    <div className="w-12 h-12 rounded-xl bg-gray-50 flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all duration-300">
-                      <social.icon size={20} />
-                    </div>
-                    <div className="text-center">
-                      <p className="text-sm font-medium text-black">
-                        {social.label}
-                      </p>
-                      <p className="text-[11px] text-gray-400 mt-0.5 truncate max-w-[140px]">
-                        {social.handle}
-                      </p>
-                    </div>
-                  </a>
-                </ScrollAnimation>
-              ))}
-            </div>
-
-            {/* CTA Button */}
-            <motion.a
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              href="mailto:phyodynamics@gmail.com"
-              className="mt-4 inline-flex items-center gap-2 px-8 py-4 bg-black text-white text-sm font-medium rounded-full hover:bg-gray-800 transition-all duration-300 hover:scale-105 hover:shadow-xl"
-            >
-              <Send size={16} />
-              Drop a Message
-            </motion.a>
+          <div className="flex-1 w-full grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {socials.map((s) => <MagneticLink key={s.label} {...s} />)}
           </div>
-        </ScrollAnimation>
-
-        {/* Footer */}
-        <div className="mt-24 pt-8 border-t border-gray-100 text-center">
-          <p className="text-xs text-gray-500">
-            © 2026 Phyo Zin Ko · Built with Next.js & Framer Motion
-          </p>
+        </div>
+        <div className="mt-32 pt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-gray-300">© 2026 Phyo Zin Ko</p>
+          <p className="text-xs text-gray-300">Built with Next.js & GSAP</p>
         </div>
       </div>
     </section>

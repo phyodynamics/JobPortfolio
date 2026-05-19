@@ -1,166 +1,123 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { FadeUpWord } from "@/components/ui/fade-up-word";
-import ScrollAnimation from "./ScrollAnimation";
-import { useRef, MouseEvent } from "react";
+import { useRef, useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 
-const skills = [
-  { name: "HTML & CSS", svg: "/images/tech/html5.svg", category: "Frontend" },
-  { name: "React", svg: "/images/tech/react.svg", category: "Frontend" },
-  { name: "Next.js", svg: "/images/tech/nextjs.svg", category: "Frontend" },
-  {
-    name: "TypeScript",
-    svg: "/images/tech/typescript.svg",
-    category: "Frontend",
-  },
-  {
-    name: "Tailwind CSS",
-    svg: "/images/tech/tailwind.svg",
-    category: "Frontend",
-  },
-  {
-    name: "Redux / RTK Query",
-    svg: "/images/tech/redux.svg",
-    category: "State",
-  },
-  {
-    name: "React Compiler",
-    svg: "/images/tech/react.svg",
-    category: "Frontend",
-  },
-  {
-    name: "Navigation",
-    svg: "/images/tech/reactrouter.svg",
-    category: "Frontend",
-  },
-  { name: "Node.js", svg: "/images/tech/nodejs.svg", category: "Backend" },
-  { name: "Express.js", svg: "/images/tech/express.svg", category: "Backend" },
-  { name: "GraphQL API", svg: "/images/tech/graphql.svg", category: "Backend" },
-  { name: "API Integration", svg: "/images/tech/api.svg", category: "Backend" },
-  { name: "Prisma ORM", svg: "/images/tech/prisma.svg", category: "Backend" },
-  { name: "JWT & OAuth", svg: "/images/tech/jwt.svg", category: "Security" },
-  { name: "Testing", svg: "/images/tech/jest.svg", category: "Backend" },
-  { name: "Git & GitHub", svg: "/images/tech/git.svg", category: "Tools" },
-  { name: "Vercel & AWS", svg: "/images/tech/vercel.svg", category: "DevOps" },
-  { name: "Docker", svg: "/images/tech/docker.svg", category: "DevOps" },
-  { name: "AI Integration", svg: "/images/tech/gemini.svg", category: "AI" },
-  {
-    name: "Optimization",
-    svg: "/images/tech/optimization.svg",
-    category: "Tools",
-  },
-  { name: "C++", svg: "/images/tech/cpp.svg", category: "Language" },
-  { name: "C#", svg: "/images/tech/csharp.svg", category: "Language" },
-  { name: "J2SE", svg: "/images/tech/java.svg", category: "Java" },
-  { name: "J2EE", svg: "/images/tech/java.svg", category: "Java" },
-  { name: "PHP", svg: "/images/tech/php.svg", category: "Language" },
+gsap.registerPlugin(ScrollTrigger);
+
+const skillRows = [
+  [
+    { name: "React", svg: "/images/tech/react.svg" },
+    { name: "Next.js", svg: "/images/tech/nextjs.svg" },
+    { name: "TypeScript", svg: "/images/tech/typescript.svg" },
+    { name: "Tailwind", svg: "/images/tech/tailwind.svg" },
+    { name: "Redux", svg: "/images/tech/redux.svg" },
+    { name: "HTML & CSS", svg: "/images/tech/html5.svg" },
+  ],
+  [
+    { name: "Node.js", svg: "/images/tech/nodejs.svg" },
+    { name: "Express", svg: "/images/tech/express.svg" },
+    { name: "GraphQL", svg: "/images/tech/graphql.svg" },
+    { name: "Prisma", svg: "/images/tech/prisma.svg" },
+    { name: "JWT Auth", svg: "/images/tech/jwt.svg" },
+    { name: "Docker", svg: "/images/tech/docker.svg" },
+  ],
+  [
+    { name: "Git", svg: "/images/tech/git.svg" },
+    { name: "Vercel", svg: "/images/tech/vercel.svg" },
+    { name: "AI / Gemini", svg: "/images/tech/gemini.svg" },
+    { name: "Java", svg: "/images/tech/java.svg" },
+    { name: "C++", svg: "/images/tech/cpp.svg" },
+    { name: "PHP", svg: "/images/tech/php.svg" },
+  ],
 ];
 
-function SkillCard({ skill }: { skill: (typeof skills)[number] }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [12, -12]), {
-    stiffness: 200,
-    damping: 20,
-  });
-  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-12, 12]), {
-    stiffness: 200,
-    damping: 20,
-  });
-
-  const handleMouse = (e: MouseEvent<HTMLDivElement>) => {
-    const rect = ref.current?.getBoundingClientRect();
-    if (!rect) return;
-    mouseX.set((e.clientX - rect.left) / rect.width - 0.5);
-    mouseY.set((e.clientY - rect.top) / rect.height - 0.5);
-  };
-
-  const handleLeave = () => {
-    mouseX.set(0);
-    mouseY.set(0);
-  };
-
+function SkillPill({ name, svg }: { name: string; svg: string }) {
   return (
-    <motion.div
-      ref={ref}
-      onMouseMove={handleMouse}
-      onMouseLeave={handleLeave}
-      style={{
-        rotateX,
-        rotateY,
-        transformStyle: "preserve-3d",
-        willChange: "transform",
-      }}
-      className="group flex flex-col items-center gap-3 p-6 rounded-2xl bg-white border border-gray-100 hover:border-gray-200 hover:shadow-xl transition-shadow cursor-default"
-    >
-      <div
-        className="w-11 h-11 rounded-xl bg-gray-50 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
-        style={{ transform: "translateZ(30px)" }}
-      >
-        <Image
-          src={skill.svg}
-          alt={skill.name}
-          width={24}
-          height={24}
-          className="w-6 h-6 object-contain"
-        />
+    <div className="flex items-center gap-3 px-6 py-3 rounded-full border border-gray-100 bg-white hover:border-gray-300 hover:shadow-lg transition-all duration-300 shrink-0 group">
+      <div className="w-6 h-6 flex items-center justify-center">
+        <Image src={svg} alt={name} width={20} height={20} className="w-5 h-5 object-contain opacity-50 group-hover:opacity-100 transition-opacity" />
       </div>
-      <span
-        className="text-sm font-medium text-gray-700 text-center"
-        style={{ transform: "translateZ(20px)" }}
-      >
-        {skill.name}
-      </span>
-      <span
-        className="text-[10px] tracking-wider uppercase text-gray-400"
-        style={{ transform: "translateZ(10px)" }}
-      >
-        {skill.category}
-      </span>
-    </motion.div>
+      <span className="text-sm font-medium text-gray-400 group-hover:text-black transition-colors whitespace-nowrap">{name}</span>
+    </div>
   );
 }
 
 export default function SkillsSection() {
-  return (
-    <section id="skills" className="py-32 px-6 bg-gray-50/50">
-      <div className="max-w-5xl mx-auto">
-        <ScrollAnimation variant="zoom">
-          <div className="text-center mb-16">
-            <p className="text-xs tracking-[0.3em] uppercase text-gray-400 mb-4">
-              Tech Stack
-            </p>
-            <FadeUpWord
-              as="h2"
-              className="text-4xl md:text-5xl font-bold text-black justify-center"
-            >
-              Skills & Technologies
-            </FadeUpWord>
-            <p className="mt-4 text-gray-500">
-              Technologies I work with on a daily basis
-            </p>
-          </div>
-        </ScrollAnimation>
+  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const bandRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-        <div
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"
-          style={{ perspective: "1200px" }}
-        >
-          {skills.map((skill, i) => (
-            <ScrollAnimation
-              key={skill.name}
-              variant={
-                i % 3 === 0 ? "rise" : i % 3 === 1 ? "tiltLeft" : "tiltRight"
-              }
-            >
-              <SkillCard skill={skill} />
-            </ScrollAnimation>
-          ))}
+  useEffect(() => {
+    const section = sectionRef.current;
+    const header = headerRef.current;
+    if (!section || !header) return;
+
+    const ctx = gsap.context(() => {
+      const headingChars = header.querySelectorAll(".skill-heading-char");
+      const desc = header.querySelector(".section-desc");
+      const line = header.querySelector(".heading-line");
+
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: header, start: "top 75%", toggleActions: "play none none reverse" },
+      });
+
+      tl.fromTo(line!, { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "power3.inOut" });
+      tl.fromTo(headingChars, { y: 80, opacity: 0, rotateX: -90 }, { y: 0, opacity: 1, rotateX: 0, stagger: 0.03, duration: 0.8, ease: "expo.out" }, 0.2);
+      tl.fromTo(desc!, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6 }, 0.5);
+
+      bandRefs.current.forEach((band, i) => {
+        if (!band) return;
+        const track = band.querySelector(".marquee-track");
+        if (!track) return;
+        const direction = i % 2 === 0 ? -1 : 1;
+        const speed = 20 + i * 5;
+
+        gsap.to(track, { xPercent: direction * -50, repeat: -1, duration: speed, ease: "none" });
+
+        ScrollTrigger.create({
+          trigger: band, start: "top bottom", end: "bottom top", scrub: 0.5,
+          onUpdate: (self) => {
+            gsap.to(band, { skewX: self.getVelocity() * -0.0003, duration: 0.3, ease: "power2.out" });
+          },
+        });
+      });
+    }, section);
+
+    return () => ctx.revert();
+  }, []);
+
+  const heading = "TECH STACK";
+
+  return (
+    <section ref={sectionRef} id="skills" className="py-32 bg-gray-50/50 overflow-hidden">
+      <div className="max-w-6xl mx-auto px-6">
+        <div ref={headerRef} className="mb-20">
+          <div className="flex items-center gap-6 mb-6">
+            <div className="heading-line h-[1px] w-16 bg-[#A3F900] origin-left" />
+            <span className="text-xs tracking-[0.3em] uppercase text-gray-400">Skills</span>
+          </div>
+          <h2 className="text-5xl md:text-7xl font-bold text-black tracking-tighter overflow-hidden" style={{ perspective: "800px" }}>
+            {heading.split("").map((char, i) => (
+              <span key={i} className="skill-heading-char inline-block">{char === " " ? "\u00A0" : char}</span>
+            ))}
+          </h2>
+          <p className="section-desc mt-6 text-gray-500 max-w-xl text-lg">Technologies I work with on a daily basis</p>
         </div>
+      </div>
+
+      <div className="space-y-4">
+        {skillRows.map((row, i) => (
+          <div key={i} ref={(el) => { bandRefs.current[i] = el; }} className="overflow-hidden py-2">
+            <div className="marquee-track flex gap-4">
+              {[...row, ...row, ...row, ...row].map((skill, j) => (
+                <SkillPill key={`${skill.name}-${j}`} {...skill} />
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );

@@ -95,50 +95,102 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    overflow-x: hidden;
   }
-  /* Accessible focus ring for keyboard navigation */
   :focus-visible {
     @apply outline-2 outline-offset-2 outline-black rounded-sm;
   }
-  /* Smooth transitions everywhere */
   a,
   button {
     @apply transition-colors duration-200;
   }
 }
 
-/* Smooth scrollbar */
+/* ── Scrollbar ── */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
   background: #d4d4d4;
-  border-radius: 3px;
+  border-radius: 2px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #a3a3a3;
 }
 
-/* Selection */
+/* ── Selection ── */
 ::selection {
   background: #000000;
   color: #ffffff;
 }
 
-/* Vertical marquee animation */
-@keyframes marquee-vertical {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-50%);
-  }
+/* ── GSAP Pin Spacer Fix ── */
+.pin-spacer {
+  pointer-events: none;
+}
+.pin-spacer > * {
+  pointer-events: auto;
 }
 
-/* Hide scrollbar but keep scrollable */
+/* ── Animated chars ── */
+.split-char {
+  will-change: transform, opacity;
+  display: inline-block;
+}
+
+/* ── Noise overlay — very subtle on white ── */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0.015;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* ── Marquee ── */
+.marquee-track {
+  display: flex;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+/* ── Glass (white) ── */
+.glass {
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+}
+
+/* ── Gradient line ── */
+.gradient-line {
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    #FF2D55 20%,
+    #A3F900 50%,
+    #04C7DD 80%,
+    transparent
+  );
+}
+
+/* ── Project card overlay ── */
+.project-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.3) 50%,
+    transparent 100%
+  );
+}
+
+/* ── Hide scrollbar ── */
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
