@@ -1,13 +1,12 @@
 "use client";
 
-import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import AboutSection from "@/components/AboutSection";
 import SkillsSection from "@/components/SkillsSection";
 import ExperienceSection from "@/components/ExperienceSection";
 import ProjectsSection from "@/components/ProjectsSection";
 import ContactSection from "@/components/ContactSection";
-import FloatingResume from "@/components/FloatingResume";
+import FloatingActions from "@/components/FloatingActions";
 import SmoothScroll from "@/components/SmoothScroll";
 import GSAPProvider from "@/components/GSAPProvider";
 import CinematicIntro from "@/components/CinematicIntro";
@@ -18,8 +17,7 @@ export default function Home() {
       <SmoothScroll>
         <CinematicIntro />
         <main className="bg-white text-black relative">
-          <Navbar />
-          <FloatingResume />
+          <FloatingActions />
           <HeroSection />
           <AboutSection />
           <SkillsSection />
