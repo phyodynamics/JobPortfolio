@@ -7,6 +7,7 @@ import ExperienceSection from "@/components/ExperienceSection";
 import ProjectsSection from "@/components/ProjectsSection";
 import ContactSection from "@/components/ContactSection";
 import FloatingActions from "@/components/FloatingActions";
+import Navbar from "@/components/Navbar";
 import SmoothScroll from "@/components/SmoothScroll";
 import GSAPProvider from "@/components/GSAPProvider";
 import CinematicIntro from "@/components/CinematicIntro";
@@ -16,7 +17,8 @@ export default function Home() {
     <GSAPProvider>
       <SmoothScroll>
         <CinematicIntro />
-        <main className="bg-white text-black relative">
+        <main className="bg-white text-black relative overflow-x-hidden">
+          <Navbar />
           <FloatingActions />
           <HeroSection />
           <AboutSection />

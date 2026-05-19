@@ -87,6 +87,9 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    overflow-x: hidden;
+  }
   body {
     @apply bg-white text-black;
     font-feature-settings:

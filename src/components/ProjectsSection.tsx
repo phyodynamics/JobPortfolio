@@ -215,8 +215,10 @@ export default function ProjectsSection() {
     const container = containerRef.current;
     if (!section || !header || !track || !container) return;
 
+    const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+
     const ctx = gsap.context(() => {
-      // Header
+      // Header animation
       const headingChars = header.querySelectorAll(".proj-heading-char");
       const desc = header.querySelector(".section-desc");
       const line = header.querySelector(".heading-line");
@@ -228,42 +230,36 @@ export default function ProjectsSection() {
       tl.fromTo(headingChars, { y: 80, opacity: 0, rotateX: -90 }, { y: 0, opacity: 1, rotateX: 0, stagger: 0.03, duration: 0.8, ease: "expo.out" }, 0.2);
       tl.fromTo(desc!, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6 }, 0.5);
 
-      // Horizontal scroll pinning — pin the container, not the full section
-      // so the header scrolls naturally before cards start moving
-      const totalWidth = track.scrollWidth - container.clientWidth;
+      if (isDesktop) {
+        // Desktop: horizontal scroll pinning
+        const totalWidth = track.scrollWidth - container.clientWidth;
 
-      gsap.to(track, {
-        x: -totalWidth,
-        ease: "none",
-        scrollTrigger: {
-          trigger: container,
-          start: "top 15%",
-          end: () => `+=${totalWidth * 1.3}`,
-          pin: true,
-          scrub: 1.5,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        },
-      });
-
-      // Each card gets a parallax entrance
-      const cards = track.querySelectorAll(".project-hcard");
-      cards.forEach((card) => {
-        gsap.fromTo(
-          card,
-          { rotateY: 8, scale: 0.92, opacity: 0.6 },
-          {
-            rotateY: 0, scale: 1, opacity: 1, duration: 1, ease: "power2.out",
-            scrollTrigger: {
-              trigger: card,
-              start: "left 90%",
-              end: "left 40%",
-              scrub: 1,
-              containerAnimation: gsap.utils.toArray(".project-hcard").length > 0 ? undefined : undefined,
-            },
+        gsap.to(track, {
+          x: -totalWidth,
+          ease: "none",
+          scrollTrigger: {
+            trigger: container,
+            start: "top 15%",
+            end: () => `+=${totalWidth * 1.3}`,
+            pin: true,
+            scrub: 1.5,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
           },
-        );
-      });
+        });
+      } else {
+        // Mobile: simple vertical stagger
+        const cards = section.querySelectorAll(".project-vcard");
+        cards.forEach((card) => {
+          gsap.fromTo(card,
+            { opacity: 0, y: 60 },
+            {
+              opacity: 1, y: 0, duration: 0.8, ease: "power3.out",
+              scrollTrigger: { trigger: card, start: "top 85%", toggleActions: "play none none reverse" },
+            },
+          );
+        });
+      }
     }, section);
 
     return () => ctx.revert();
@@ -275,7 +271,7 @@ export default function ProjectsSection() {
     <>
       <section ref={sectionRef} id="projects" className="py-16 md:py-32 px-4 md:px-6 overflow-hidden">
         <div className="max-w-6xl mx-auto">
-          <div ref={headerRef} className="mb-16">
+          <div ref={headerRef} className="mb-10 md:mb-16">
             <div className="flex items-center gap-6 mb-6">
               <div className="heading-line h-[1px] w-16 bg-[#FF2D55] origin-left" />
               <span className="text-xs tracking-[0.3em] uppercase text-gray-400">Portfolio</span>
@@ -286,20 +282,42 @@ export default function ProjectsSection() {
               ))}
             </h2>
             <p className="section-desc mt-4 md:mt-6 text-gray-500 max-w-xl text-base md:text-lg">
-              Scroll horizontally to explore · Click to see details
+              Click to see details
             </p>
           </div>
         </div>
 
-        {/* Horizontal scroll container */}
-        <div ref={containerRef} className="overflow-hidden">
-          <div ref={trackRef} className="flex gap-4 md:gap-6 pl-4 md:pl-6" style={{ perspective: "1200px" }}>
+        {/* Desktop: Horizontal scroll */}
+        <div ref={containerRef} className="hidden md:block overflow-hidden">
+          <div ref={trackRef} className="flex gap-6 pl-6" style={{ perspective: "1200px" }}>
             {projects.map((project, i) => (
               <HorizontalProjectCard key={project.title} project={project} index={i} onOpen={setOpenIndex} />
             ))}
-            {/* Spacer */}
             <div className="flex-shrink-0 w-[10vw]" />
           </div>
+        </div>
+
+        {/* Mobile: Vertical cards */}
+        <div className="md:hidden space-y-4">
+          {projects.map((project, i) => (
+            <div
+              key={project.title}
+              className="project-vcard relative rounded-2xl overflow-hidden cursor-pointer group"
+              style={{ aspectRatio: "16/10" }}
+              onClick={() => setOpenIndex(i)}
+            >
+              <img src={project.src} alt={project.title} className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+              <div className="project-overlay absolute inset-0 z-10" />
+              <div className="absolute top-0 left-0 right-0 h-[2px] z-30" style={{ background: project.accent }} />
+              <div className="absolute bottom-0 left-0 right-0 p-5 z-20">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-1.5 h-1.5 rounded-full" style={{ background: project.accent }} />
+                  <p className="text-[10px] tracking-[0.15em] uppercase text-white/60">{project.category}</p>
+                </div>
+                <h3 className="text-xl font-bold text-white">{project.title}</h3>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -309,3 +327,4 @@ export default function ProjectsSection() {
     </>
   );
 }
+
