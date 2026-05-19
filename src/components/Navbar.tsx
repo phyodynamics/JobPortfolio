@@ -54,9 +54,8 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav ref={navRef} className="fixed top-4 left-1/2 -translate-x-1/2 z-[9999] mx-auto w-[calc(100%-1rem)] sm:w-auto max-w-4xl px-1 sm:px-4 py-2 opacity-0">
-      <div className="flex items-center justify-center">
-        <div className="glass flex items-center justify-between overflow-hidden rounded-xl">
+    <nav ref={navRef} className="fixed top-4 inset-x-0 z-[9999] flex justify-center px-3 sm:px-4 opacity-0">
+      <div className="glass flex items-center justify-center overflow-hidden rounded-xl">
           {Object.entries(navItems).map(([path, { name }], index, array) => {
             const isActive = activePath === path;
             const isFirst = index === 0;
@@ -66,9 +65,9 @@ export default function Navbar() {
             return (
               <button
                 className={clsx(
-                  "flex items-center justify-center p-1 px-2.5 sm:p-1.5 sm:px-4 text-xs sm:text-sm transition-all duration-300 capitalize focus-visible:outline-black",
+                  "flex items-center justify-center py-1.5 px-2 sm:px-4 text-[11px] sm:text-sm transition-all duration-300 capitalize focus-visible:outline-black whitespace-nowrap",
                   isActive
-                    ? "mx-1 sm:mx-2 rounded-xl font-semibold bg-black text-white"
+                    ? "mx-0.5 sm:mx-2 rounded-lg sm:rounded-xl font-semibold bg-black text-white"
                     : clsx("text-gray-400 hover:text-black", (activePath === (prevPath || "") || isFirst) && "rounded-l-xl", (activePath === (nextPath || "") || isLast) && "rounded-r-xl"),
                 )}
                 key={path}
@@ -77,7 +76,6 @@ export default function Navbar() {
               >{name}</button>
             );
           })}
-        </div>
       </div>
     </nav>
   );
