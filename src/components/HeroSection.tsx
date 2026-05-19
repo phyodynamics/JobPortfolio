@@ -153,31 +153,31 @@ export default function HeroSection() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-[#A3F900]/[0.02] blur-[150px]" />
 
       {/* Top marquee */}
-      <div ref={marqueeTopRef} className="absolute top-[12%] left-0 w-full overflow-hidden opacity-[0.03]">
+      <div ref={marqueeTopRef} className="absolute top-[12%] left-0 w-full overflow-hidden opacity-[0.03] hidden md:block">
         <div className="marquee-track">
           {[...Array(4)].map((_, i) => (
-            <span key={i} className="text-[10rem] font-bold tracking-tighter text-black whitespace-nowrap mx-4">{marqueeText}</span>
+            <span key={i} className="text-[6rem] md:text-[10rem] font-bold tracking-tighter text-black whitespace-nowrap mx-4">{marqueeText}</span>
           ))}
         </div>
       </div>
 
       {/* Bottom marquee */}
-      <div ref={marqueeBotRef} className="absolute bottom-[12%] left-0 w-full overflow-hidden opacity-[0.02]">
+      <div ref={marqueeBotRef} className="absolute bottom-[12%] left-0 w-full overflow-hidden opacity-[0.02] hidden md:block">
         <div className="marquee-track">
           {[...Array(4)].map((_, i) => (
-            <span key={i} className="text-[8rem] font-bold tracking-tighter text-black whitespace-nowrap mx-4">{marqueeText}</span>
+            <span key={i} className="text-[5rem] md:text-[8rem] font-bold tracking-tighter text-black whitespace-nowrap mx-4">{marqueeText}</span>
           ))}
         </div>
       </div>
 
       {/* Main content */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
-        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+        <div className="flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-20">
           {/* Left: Text */}
           <div className="flex-1 text-center lg:text-left">
             <h1
               ref={nameRef}
-              className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter leading-[0.85] text-black"
+              className="text-5xl md:text-8xl lg:text-9xl font-bold tracking-tighter leading-[0.85] text-black"
               style={{ perspective: "1000px" }}
             >
               {name.split("").map((char, i) => (
@@ -187,34 +187,34 @@ export default function HeroSection() {
               ))}
             </h1>
 
-            <div ref={roleRef} className="mt-8 flex items-center gap-4 justify-center lg:justify-start">
+            <div ref={roleRef} className="mt-5 md:mt-8 flex items-center gap-3 md:gap-4 justify-center lg:justify-start">
               <div className="role-line h-[1px] w-12 bg-gray-300 origin-left" />
-              <p className="text-sm md:text-base tracking-[0.3em] uppercase text-gray-400">
+              <p className="text-[10px] md:text-base tracking-[0.2em] md:tracking-[0.3em] uppercase text-gray-400">
                 {role.split("").map((char, i) => (
                   <span key={i} className="role-char inline-block">{char === " " ? "\u00A0" : char}</span>
                 ))}
               </p>
             </div>
 
-            <div ref={statsRef} className="mt-12 flex gap-10 justify-center lg:justify-start">
+            <div ref={statsRef} className="mt-8 md:mt-12 flex gap-6 md:gap-10 justify-center lg:justify-start">
               <div className="stat-item">
-                <div className="stat-value text-3xl md:text-4xl font-bold text-black" data-target="30" data-suffix="+">0</div>
-                <div className="text-xs tracking-widest uppercase text-gray-400 mt-1">Projects</div>
+                <div className="stat-value text-2xl md:text-4xl font-bold text-black" data-target="30" data-suffix="+">0</div>
+                <div className="text-[10px] md:text-xs tracking-widest uppercase text-gray-400 mt-1">Projects</div>
               </div>
               <div className="stat-item">
-                <div className="stat-value text-3xl md:text-4xl font-bold text-black" data-target="10" data-suffix="+">0</div>
-                <div className="text-xs tracking-widest uppercase text-gray-400 mt-1">Years Tech</div>
+                <div className="stat-value text-2xl md:text-4xl font-bold text-black" data-target="10" data-suffix="+">0</div>
+                <div className="text-[10px] md:text-xs tracking-widest uppercase text-gray-400 mt-1">Years Tech</div>
               </div>
               <div className="stat-item">
-                <div className="stat-value text-3xl md:text-4xl font-bold text-[#FF2D55]" data-target="400" data-suffix="+">0</div>
-                <div className="text-xs tracking-widest uppercase text-gray-400 mt-1">Users</div>
+                <div className="stat-value text-2xl md:text-4xl font-bold text-[#FF2D55]" data-target="400" data-suffix="+">0</div>
+                <div className="text-[10px] md:text-xs tracking-widest uppercase text-gray-400 mt-1">Users</div>
               </div>
             </div>
 
-            <div ref={btnsRef} className="mt-12 flex gap-4 justify-center lg:justify-start">
+            <div ref={btnsRef} className="mt-8 md:mt-12 flex flex-col sm:flex-row gap-3 md:gap-4 justify-center lg:justify-start">
               <button
                 onClick={() => document.querySelector("#projects")?.scrollIntoView({ behavior: "smooth" })}
-                className="group relative px-8 py-4 bg-black text-white text-sm font-semibold rounded-full overflow-hidden"
+                className="group relative px-6 md:px-8 py-3 md:py-4 bg-black text-white text-sm font-semibold rounded-full overflow-hidden"
               >
                 <span className="relative z-10">View Projects</span>
                 <div className="absolute inset-0 bg-[#FF2D55] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
@@ -222,7 +222,7 @@ export default function HeroSection() {
               </button>
               <button
                 onClick={() => document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" })}
-                className="px-8 py-4 border border-gray-200 text-gray-500 text-sm font-medium rounded-full hover:border-black hover:text-black transition-all duration-300"
+                className="px-6 md:px-8 py-3 md:py-4 border border-gray-200 text-gray-500 text-sm font-medium rounded-full hover:border-black hover:text-black transition-all duration-300"
               >
                 Get in Touch
               </button>
@@ -260,7 +260,7 @@ export default function HeroSection() {
 
             <div
               ref={profileRef}
-              className="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-2 border-gray-100 shadow-[0_20px_60px_rgba(0,0,0,0.1)] opacity-0"
+              className="w-40 h-40 sm:w-56 sm:h-56 md:w-80 md:h-80 rounded-full overflow-hidden border-2 border-gray-100 shadow-[0_20px_60px_rgba(0,0,0,0.1)] opacity-0"
               style={{ transformStyle: "preserve-3d", willChange: "transform" }}
             >
               <img

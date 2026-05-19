@@ -96,10 +96,9 @@ export default function ExperienceSection() {
       });
 
       const items = timeline.querySelectorAll(".timeline-item");
-      items.forEach((item, i) => {
-        const isLeft = i % 2 === 0;
-        gsap.fromTo(item, { opacity: 0, x: isLeft ? -60 : 60, y: 20 }, {
-          opacity: 1, x: 0, y: 0, duration: 0.8, ease: "power3.out",
+      items.forEach((item) => {
+        gsap.fromTo(item, { opacity: 0, y: 30 }, {
+          opacity: 1, y: 0, duration: 0.8, ease: "power3.out",
           scrollTrigger: { trigger: item, start: "top 85%", toggleActions: "play none none reverse" },
         });
       });
@@ -111,25 +110,25 @@ export default function ExperienceSection() {
   const heading = "EXPERIENCE";
 
   return (
-    <section ref={sectionRef} id="experience" className="py-32 px-6">
+    <section ref={sectionRef} id="experience" className="py-16 md:py-32 px-4 md:px-6">
       <div className="max-w-6xl mx-auto">
-        <div ref={headerRef} className="mb-20">
+        <div ref={headerRef} className="mb-12 md:mb-20">
           <div className="flex items-center gap-6 mb-6">
             <div className="heading-line h-[1px] w-16 bg-[#04C7DD] origin-left" />
             <span className="text-xs tracking-[0.3em] uppercase text-gray-400">Experience</span>
           </div>
-          <h2 className="text-5xl md:text-7xl font-bold text-black tracking-tighter overflow-hidden" style={{ perspective: "800px" }}>
+          <h2 className="text-4xl md:text-7xl font-bold text-black tracking-tighter overflow-hidden" style={{ perspective: "800px" }}>
             {heading.split("").map((char, i) => (
               <span key={i} className="exp-heading-char inline-block">{char === " " ? "\u00A0" : char}</span>
             ))}
           </h2>
-          <p className="section-desc mt-6 text-gray-500 max-w-xl text-lg">20 years old, building since day one</p>
+          <p className="section-desc mt-4 md:mt-6 text-gray-500 max-w-xl text-base md:text-lg">20 years old, building since day one</p>
         </div>
 
-        <div className="flex flex-col lg:flex-row items-start gap-16">
+        <div className="flex flex-col lg:flex-row items-start gap-10 lg:gap-16">
           <div className="shrink-0">
             <div className="flex items-center gap-6">
-              <div className="relative w-[170px] h-[170px]">
+              <div className="relative w-[130px] h-[130px] md:w-[170px] md:h-[170px]">
                 {activities.map((activity, index) => (
                   <CircleProgress key={activity.label} data={activity} index={index} />
                 ))}
@@ -148,11 +147,11 @@ export default function ExperienceSection() {
           </div>
 
           <div ref={timelineRef} className="flex-1 w-full relative">
-            <div ref={lineRef} className="absolute left-4 top-0 bottom-0 w-[2px] gradient-line origin-top" style={{ transform: "scaleY(0)" }} />
-            <div className="space-y-4 pl-12">
+            <div ref={lineRef} className="absolute left-3 md:left-4 top-0 bottom-0 w-[2px] gradient-line origin-top" style={{ transform: "scaleY(0)" }} />
+            <div className="space-y-3 md:space-y-4 pl-9 md:pl-12">
               {expItems.map((item) => (
-                <div key={item.title} className="timeline-item relative flex items-start gap-4 p-4 rounded-xl border border-gray-100 bg-white hover:border-gray-200 hover:shadow-md transition-all group">
-                  <div className="absolute -left-[2.35rem] top-6 w-3 h-3 rounded-full border-2 bg-white" style={{ borderColor: item.accent }} />
+                <div key={item.title} className="timeline-item relative flex items-start gap-3 md:gap-4 p-3 md:p-4 rounded-xl border border-gray-100 bg-white hover:border-gray-200 hover:shadow-md transition-all group">
+                  <div className="absolute -left-[1.9rem] md:-left-[2.35rem] top-5 md:top-6 w-2.5 h-2.5 md:w-3 md:h-3 rounded-full border-2 bg-white" style={{ borderColor: item.accent }} />
                   <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0" style={{ background: `${item.accent}10` }}>
                     <item.icon size={18} strokeWidth={1.5} style={{ color: item.accent }} />
                   </div>

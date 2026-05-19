@@ -92,26 +92,26 @@ export default function SkillsSection() {
   const heading = "TECH STACK";
 
   return (
-    <section ref={sectionRef} id="skills" className="py-32 bg-gray-50/50 overflow-hidden">
-      <div className="max-w-6xl mx-auto px-6">
-        <div ref={headerRef} className="mb-20">
+    <section ref={sectionRef} id="skills" className="py-16 md:py-32 bg-gray-50/50 overflow-hidden">
+      <div className="max-w-6xl mx-auto px-4 md:px-6">
+        <div ref={headerRef} className="mb-12 md:mb-20">
           <div className="flex items-center gap-6 mb-6">
             <div className="heading-line h-[1px] w-16 bg-[#A3F900] origin-left" />
             <span className="text-xs tracking-[0.3em] uppercase text-gray-400">Skills</span>
           </div>
-          <h2 className="text-5xl md:text-7xl font-bold text-black tracking-tighter overflow-hidden" style={{ perspective: "800px" }}>
+          <h2 className="text-4xl md:text-7xl font-bold text-black tracking-tighter overflow-hidden" style={{ perspective: "800px" }}>
             {heading.split("").map((char, i) => (
               <span key={i} className="skill-heading-char inline-block">{char === " " ? "\u00A0" : char}</span>
             ))}
           </h2>
-          <p className="section-desc mt-6 text-gray-500 max-w-xl text-lg">Technologies I work with on a daily basis</p>
+          <p className="section-desc mt-4 md:mt-6 text-gray-500 max-w-xl text-base md:text-lg">Technologies I work with on a daily basis</p>
         </div>
       </div>
 
       <div className="space-y-4">
         {skillRows.map((row, i) => (
           <div key={i} ref={(el) => { bandRefs.current[i] = el; }} className="overflow-hidden py-2">
-            <div className="marquee-track flex gap-4">
+            <div className="marquee-track flex gap-3 md:gap-4">
               {[...row, ...row, ...row, ...row].map((skill, j) => (
                 <SkillPill key={`${skill.name}-${j}`} {...skill} />
               ))}

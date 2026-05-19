@@ -75,20 +75,20 @@ export default function ContactSection() {
   const bigText = "LET'S TALK";
 
   return (
-    <section ref={sectionRef} id="contact" className="py-32 px-6 relative">
+    <section ref={sectionRef} id="contact" className="py-16 md:py-32 px-4 md:px-6 relative">
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full bg-[#FF2D55]/[0.03] blur-[150px] pointer-events-none" />
       <div className="max-w-6xl mx-auto relative z-10">
-        <div ref={bigTextRef} className="text-center mb-20">
-          <h2 className="text-6xl md:text-9xl lg:text-[12rem] font-bold text-black tracking-tighter leading-[0.85] overflow-hidden" style={{ perspective: "1000px" }}>
+        <div ref={bigTextRef} className="text-center mb-12 md:mb-20">
+          <h2 className="text-5xl md:text-9xl lg:text-[12rem] font-bold text-black tracking-tighter leading-[0.85] overflow-hidden" style={{ perspective: "1000px" }}>
             {bigText.split("").map((char, i) => <span key={i} className="big-char inline-block">{char === " " ? "\u00A0" : char}</span>)}
           </h2>
-          <p className="contact-sub mt-6 text-gray-400 text-lg max-w-md mx-auto">Got an idea? I&apos;m listening. My inbox is always open.</p>
+          <p className="contact-sub mt-4 md:mt-6 text-gray-400 text-base md:text-lg max-w-md mx-auto">Got an idea? I&apos;m listening. My inbox is always open.</p>
         </div>
-        <div ref={contentRef} className="flex flex-col lg:flex-row gap-12 items-start">
+        <div ref={contentRef} className="flex flex-col lg:flex-row gap-8 md:gap-12 items-start">
           <div className="flex-1">
             <div className="flex items-center gap-2 text-gray-400 mb-8"><MapPin size={16} /><span className="text-sm">Myanmar</span></div>
             <a ref={ctaRef} href="mailto:phyodynamics@gmail.com" onMouseMove={handleCtaMove} onMouseLeave={handleCtaLeave}
-              className="inline-flex items-center gap-3 px-10 py-5 bg-black text-white text-base font-semibold rounded-full hover:shadow-[0_0_40px_rgba(255,45,85,0.2)] transition-shadow duration-300" style={{ willChange: "transform" }}>
+              className="inline-flex items-center gap-3 px-7 md:px-10 py-4 md:py-5 bg-black text-white text-sm md:text-base font-semibold rounded-full hover:shadow-[0_0_40px_rgba(255,45,85,0.2)] transition-shadow duration-300" style={{ willChange: "transform" }}>
               <Send size={18} />Drop a Message
             </a>
           </div>
@@ -96,7 +96,7 @@ export default function ContactSection() {
             {socials.map((s) => <MagneticLink key={s.label} {...s} />)}
           </div>
         </div>
-        <div className="mt-32 pt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="mt-16 md:mt-32 pt-6 md:pt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-gray-300">© 2026 Phyo Zin Ko</p>
           <p className="text-xs text-gray-300">Built with Next.js & GSAP</p>
         </div>

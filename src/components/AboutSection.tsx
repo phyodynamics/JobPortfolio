@@ -190,15 +190,15 @@ export default function AboutSection() {
   const heading = "WHO I AM";
 
   return (
-    <section ref={sectionRef} id="about" className="py-32 px-6">
+    <section ref={sectionRef} id="about" className="py-16 md:py-32 px-4 md:px-6">
       <div className="max-w-6xl mx-auto">
-        <div ref={headerRef} className="mb-20">
+        <div ref={headerRef} className="mb-12 md:mb-20">
           <div className="flex items-center gap-6 mb-6">
             <div className="heading-line h-[1px] w-16 bg-[#FF2D55] origin-left" />
             <span className="text-xs tracking-[0.3em] uppercase text-gray-400">About</span>
           </div>
           <h2
-            className="text-5xl md:text-7xl font-bold text-black tracking-tighter overflow-hidden"
+            className="text-4xl md:text-7xl font-bold text-black tracking-tighter overflow-hidden"
             style={{ perspective: "800px" }}
           >
             {heading.split("").map((char, i) => (
@@ -207,7 +207,7 @@ export default function AboutSection() {
               </span>
             ))}
           </h2>
-          <p className="section-desc mt-6 text-gray-500 max-w-xl text-lg leading-relaxed">
+          <p className="section-desc mt-4 md:mt-6 text-gray-500 max-w-xl text-base md:text-lg leading-relaxed">
             A developer who architects and builds full-stack systems from the
             ground up. Running two agencies — Phyodynamics Academy &amp; Dev Base Studio — while shipping 30+ production-ready projects.
           </p>

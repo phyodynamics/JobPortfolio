@@ -112,7 +112,7 @@ function HorizontalProjectCard({
   return (
     <div
       ref={cardRef}
-      className="project-hcard flex-shrink-0 w-[85vw] md:w-[45vw] h-[70vh] relative rounded-3xl overflow-hidden cursor-pointer group"
+      className="project-hcard flex-shrink-0 w-[80vw] md:w-[45vw] h-[50vh] md:h-[70vh] relative rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer group"
       onClick={() => onOpen(index)}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -133,12 +133,12 @@ function HorizontalProjectCard({
       <div className="absolute top-0 left-0 right-0 h-[3px] z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: project.accent }} />
 
       {/* Content */}
-      <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12 z-20">
+      <div className="absolute bottom-0 left-0 right-0 p-5 md:p-12 z-20">
         <div className="flex items-center gap-3 mb-3">
           <div className="w-2 h-2 rounded-full" style={{ background: project.accent }} />
           <p className="text-xs tracking-[0.2em] uppercase text-white/60">{project.category}</p>
         </div>
-        <h3 className="text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">{project.title}</h3>
+        <h3 className="text-2xl md:text-5xl font-bold text-white tracking-tight mb-3 md:mb-4">{project.title}</h3>
         <div className="flex items-center gap-3 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
           <span className="text-sm text-white/70">View Details</span>
           <div className="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-white group-hover:border-white transition-all duration-300">
@@ -273,19 +273,19 @@ export default function ProjectsSection() {
 
   return (
     <>
-      <section ref={sectionRef} id="projects" className="py-32 px-6 overflow-hidden">
+      <section ref={sectionRef} id="projects" className="py-16 md:py-32 px-4 md:px-6 overflow-hidden">
         <div className="max-w-6xl mx-auto">
           <div ref={headerRef} className="mb-16">
             <div className="flex items-center gap-6 mb-6">
               <div className="heading-line h-[1px] w-16 bg-[#FF2D55] origin-left" />
               <span className="text-xs tracking-[0.3em] uppercase text-gray-400">Portfolio</span>
             </div>
-            <h2 className="text-5xl md:text-7xl font-bold text-black tracking-tighter overflow-hidden" style={{ perspective: "800px" }}>
+            <h2 className="text-4xl md:text-7xl font-bold text-black tracking-tighter overflow-hidden" style={{ perspective: "800px" }}>
               {heading.split("").map((char, i) => (
                 <span key={i} className="proj-heading-char inline-block">{char === " " ? "\u00A0" : char}</span>
               ))}
             </h2>
-            <p className="section-desc mt-6 text-gray-500 max-w-xl text-lg">
+            <p className="section-desc mt-4 md:mt-6 text-gray-500 max-w-xl text-base md:text-lg">
               Scroll horizontally to explore · Click to see details
             </p>
           </div>
@@ -293,7 +293,7 @@ export default function ProjectsSection() {
 
         {/* Horizontal scroll container */}
         <div ref={containerRef} className="overflow-hidden">
-          <div ref={trackRef} className="flex gap-6 pl-6" style={{ perspective: "1200px" }}>
+          <div ref={trackRef} className="flex gap-4 md:gap-6 pl-4 md:pl-6" style={{ perspective: "1200px" }}>
             {projects.map((project, i) => (
               <HorizontalProjectCard key={project.title} project={project} index={i} onOpen={setOpenIndex} />
             ))}
