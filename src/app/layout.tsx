@@ -35,6 +35,7 @@ export const metadata: Metadata = {
   },
   other: {
     "theme-color": "#ffffff",
+    "facebook-domain-verification": "e5i1v4tcpmxagplg4tzxlefl0003c5",
   },
 };
 
